@@ -1,4 +1,15 @@
 {
+  "trailingComma": "none",
+  "tabWidth": 2,
+  "semi": false,
   "singleQuote": true,
-  "semi": true
+  "printWidth": 150,
+  "arrowParens": "avoid",
+  "pugSingleQuote": false,
+  "pugAttributeSeparator": "none",
+  "pugClosingBracketPosition": "last-line",
+  "pugWrapAttributesThreshold": -1,
+  "pugFramework": "vue",
+  "pugSingleFileComponentIndentation": false,
+  "pugPrintWidth": 1000
 }

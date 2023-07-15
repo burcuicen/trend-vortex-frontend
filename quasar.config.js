@@ -7,7 +7,6 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
 const { configure } = require('quasar/wrappers');
 const path = require('path');
 
@@ -52,6 +51,9 @@ module.exports = configure(function (/* ctx */) {
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node16',
+      },
+      extendWebpack(cfg) {
+        cfg.resolve.alias.set('@', path.resolve(__dirname, './src'));
       },
       chainWebpack(config) {
         // ...

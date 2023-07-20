@@ -8,7 +8,7 @@ q-layout
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import LandingHeader from 'src/components/header.vue';
+import LandingHeader from 'src/components/landing/header/index.vue';
 
 
 export default defineComponent({

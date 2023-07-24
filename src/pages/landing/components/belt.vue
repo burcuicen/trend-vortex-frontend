@@ -22,32 +22,32 @@ export default defineComponent({
         {
           title: 'Real-Time Insights',
           description: 'Stay ahead of the curve with real-time data and gain valuable insights into the latest trends and topics.',
-          icon: 'trending_up'
+          icon: 'mdi-trending-up'
         },
         {
           title: 'Global Coverage',
           description: 'Explore trends from around the world with our extensive geographic coverage and access data from various regions.',
-          icon: 'travel_explore'
+          icon: 'mdi-earth'
         },
         {
           title: 'User-Friendly Interface',
           description: 'Experience a seamless user interface that makes it easy to navigate through trends and discover relevant information.',
-          icon: 'laptop_chromebook'
+          icon: 'mdi-laptop'
         },
         {
           title: 'Discover Emerging Trends',
           description: 'Explore and discover emerging trends to capitalize on new opportunities and stay competitive.',
-          icon: 'nordic_walking'
+          icon: 'mdi-ski-cross-country'
         },
         {
           title: 'Trend Analysis Tools',
           description: 'Utilize powerful trend analysis tools to gain deeper insights into market trends and customer behavior.',
-          icon: 'analytics'
+          icon: 'mdi-google-analytics'
         },
         {
           title: 'Actionable Analytics',
           description: 'Get actionable insights from data analytics to optimize your strategies and drive business growth.',
-          icon: 'analytics'
+          icon: 'mdi-home-analytics'
         }
 
       ]

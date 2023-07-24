@@ -10,7 +10,7 @@
 
     .section__cta
       button.btn.btn--solid.btn--md See more information
-        q-icon.btn__icon(name="keyboard_arrow_right" size="24px" color="primary")
+        q-icon.btn__icon(name="mdi-arrow-right-thin" size="24px" color="primary")
 
   .section__image
     img(src="src/pages/landing/assets/about-1.png" alt="banner")

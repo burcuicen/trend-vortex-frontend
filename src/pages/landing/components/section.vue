@@ -28,7 +28,7 @@ export default defineComponent({
 .section {
   display: flex;
   align-items: center;
-  gap: 90px;
+  gap: 50px;
 
   //at mobile
   @media (max-width: 768px) {

@@ -63,7 +63,7 @@ export default defineComponent({
   }
 
   &:hover {
-    transform: translateY(15px);
+    transform: translateY(5px);
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.20);
   }
 

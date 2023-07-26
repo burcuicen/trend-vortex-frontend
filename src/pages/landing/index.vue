@@ -6,6 +6,8 @@
     landing-belt
   .page__landing-banner
     landing-section
+  .page__landing-contact
+    landing-contact
 </template>
 
 <script lang="ts">
@@ -13,13 +15,15 @@ import { defineComponent } from 'vue';
 import LandingBanner from './components/banner.vue';
 import LandingBelt from './components/belt.vue';
 import LandingSection from './components/section.vue';
+import LandingContact from './components/contact.vue';
 
 export default defineComponent({
   name: 'LandingPage',
   components: {
     LandingBanner,
     LandingBelt,
-    LandingSection
+    LandingSection,
+    LandingContact
   },
 });
 </script>

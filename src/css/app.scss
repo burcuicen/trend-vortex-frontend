@@ -130,6 +130,8 @@ $font-family: 'Lato', sans-serif;
   &--primary {
     padding: 16px 20px;
     background: #57007b;
+    outline: none;
+    border: none;
   }
   &--outline {
     background: #fff;

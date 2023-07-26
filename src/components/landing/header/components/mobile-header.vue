@@ -4,7 +4,7 @@
     .header__logo
       img(src="src/assets/logo.png" alt="logo")
     .header__hamburger
-      q-icon(name="menu" size="2rem" color="#000" @click="toggleMenu")
+      q-icon(name="mdi-menu" size="2rem" color="#000" @click="toggleMenu")
   .header__menu.header__mobile-menu(v-if="isMenuOpen")
     .header__menu-item
       router-link(to="/") Home

@@ -1,4 +1,4 @@
-## Trend Vortex Frontend
+## Trend Vortex
 
 Trend Vortex is a powerful Vue.js frontend application that provides real-time insights by connecting to the Google Trends API. This application enables users to stay ahead of the curve and explore the latest trends and topics from around the world. Key features of Trend Vortex include:
 

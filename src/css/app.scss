@@ -3,31 +3,18 @@ $font-family: 'Lato', sans-serif;
 //Landing Page Styles
 //Header
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  padding: 10px 25px;
+
   display: flex;
   justify-content: space-between;
-  padding: 10px 25px;
+
   background-color: #fff;
   flex-wrap: wrap;
-  &__mobile {
-    &-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      border: 1px solid #e5e5e5;
-    }
 
-    &-menu {
-      position: absolute;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: 16px;
-      background-color: #fafafa;
-      border: 1px solid #e5e5e5;
-      gap: 20px;
-    }
-  }
   &__logo {
     display: flex;
     align-items: center;
@@ -38,23 +25,25 @@ $font-family: 'Lato', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
+
     gap: 40px;
 
     &-item {
       font-family: 'Lato', sans-serif;
       font-size: 16px;
       font-weight: 500;
+
       line-height: 156.25%;
+      a {
+        text-decoration: none;
+        color: #000;
+        cursor: pointer;
+      }
 
       &:hover {
         a {
           color: #57007b;
         }
-      }
-
-      a {
-        text-decoration: none;
-        color: #000;
       }
     }
   }
@@ -63,24 +52,33 @@ $font-family: 'Lato', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
+
     gap: 40px;
 
     &-item {
       cursor: pointer;
+
       font-family: 'Lato', sans-serif;
       font-size: 16px;
       font-weight: 500;
+
       line-height: 156.25%;
 
       &--register {
-        display: flex;
-        color: #fafafa;
         padding: 14px 25px;
+
+        display: flex;
+
+        color: #fafafa;
+
         background: linear-gradient(225deg, #f76680 0%, #57007b 100%);
+
+        border-radius: 5px;
+
         font-size: 14px;
         font-weight: 600;
+
         line-height: 14px;
-        border-radius: 5px;
 
         a {
           text-decoration: none;
@@ -92,6 +90,35 @@ $font-family: 'Lato', sans-serif;
         text-decoration: none;
         color: #000;
       }
+    }
+  }
+  &__mobile {
+    background-color: #fff;
+
+    &-container {
+      padding: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border: 1px solid #e5e5e5;
+    }
+
+    &-menu {
+      position: absolute;
+
+      padding: 16px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      width: 100%;
+
+      background-color: #fafafa;
+
+      border: 1px solid #e5e5e5;
     }
   }
 }
@@ -106,36 +133,51 @@ $font-family: 'Lato', sans-serif;
   }
 }
 .btn {
+  cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0px 4px 49px 0px rgba(0, 0, 0, 0.15);
+
   height: 50px;
+
   font-size: 14px;
   font-weight: 600;
-  line-height: 14px;
-  border-radius: 5px;
-  color: #fafafa;
-  cursor: pointer;
+
   text-decoration: none;
+  line-height: 14px;
+
+  color: #fafafa;
+
+  border-radius: 5px;
+
+  box-shadow: 0px 4px 49px 0px rgba(0, 0, 0, 0.15);
+
   &--solid {
     background: none;
     border: none;
     box-shadow: none;
+
     color: #57007b;
+
     font-size: 16px;
+
     gap: 8px;
   }
   &--primary {
     padding: 16px 20px;
+
     background: #57007b;
+
     outline: none;
     border: none;
   }
   &--outline {
     background: #fff;
+
     color: #57007b;
+
     border: 1px solid #57007b;
   }
 }

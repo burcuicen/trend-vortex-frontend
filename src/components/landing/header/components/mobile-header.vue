@@ -4,14 +4,14 @@
     .header__logo
       img(src="src/assets/logo.png" alt="logo")
     .header__hamburger
-      q-icon(name="mdi-menu" size="2rem" color="#000" @click="toggleMenu")
+      q-icon(name="mdi-menu" size="2rem" color="black" @click="toggleMenu")
   .header__menu.header__mobile-menu(v-if="isMenuOpen")
     .header__menu-item
       router-link(to="/") Home
     .header__menu-item
-      router-link(to="/") About
+      a(@click="scrollTo('about')") About
     .header__menu-item
-      router-link(to="/") Contact
+      a(@click="scrollTo('contact')") Contact
     .header__menu-item
       router-link(to="/") Blog
     .header__actions.header__mobile-actions(v-if="isMenuOpen")
@@ -35,6 +35,13 @@ export default defineComponent({
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
+    scrollTo(elementId) {
+      const element = document.getElementById(elementId);
+
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   },
 });
 </script>

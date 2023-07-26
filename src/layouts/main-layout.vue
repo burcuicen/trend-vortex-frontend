@@ -1,6 +1,7 @@
 <template lang="pug">
-q-layout
-  landing-header
+q-layout(view="hHh lpR fFf")
+  q-header
+    landing-header
   q-page-container
     router-view
   landing-footer

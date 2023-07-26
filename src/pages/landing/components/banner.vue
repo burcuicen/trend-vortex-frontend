@@ -14,7 +14,7 @@
     .banner__description Stay up-to-date with the latest global trends, gain real-time insights across various industries and topics, and harness the power of data-driven decision-making with Trend Vortex.
 
     .banner__cta
-      button.btn.btn--primary.btn--md Let’s get started!
+      button.btn.btn--primary.btn--md(@click="goToRegister") Let’s get started!
 
   .banner__image
     img(src="src/pages/landing/assets/banner-img.png" alt="banner")
@@ -26,6 +26,11 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'LandingBanner',
+  methods: {
+    goToRegister() {
+      this.$router.push('/register');
+    }
+  }
 });
 </script>
 <style lang="scss" scoped>

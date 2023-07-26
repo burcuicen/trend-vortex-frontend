@@ -1,12 +1,12 @@
 <template lang="pug">
 .page.page__landing
-  .page__landing-banner
+  #home.page__landing-banner
     landing-banner
-  .page__landing-belt
+  #about.page__landing-belt
     landing-belt
   .page__landing-banner
     landing-section
-  .page__landing-contact
+  #contact.page__landing-contact
     landing-contact
 </template>
 

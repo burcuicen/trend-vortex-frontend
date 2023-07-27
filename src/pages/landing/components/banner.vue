@@ -17,7 +17,7 @@
       button.btn.btn--primary.btn--md(@click="goToRegister") Let’s get started!
 
   .banner__image
-    img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/banner-img.pngv" alt="banner")
+    img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/banner-img.png" alt="banner")
 
 </template>
 

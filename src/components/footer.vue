@@ -81,6 +81,11 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
+
+    img {
+      width: 180px;
+      height: 59px;
+    }
   }
 
   &__menu {

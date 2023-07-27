@@ -54,7 +54,6 @@ export default defineComponent({
     padding: 20px;
     width: 100%;
     text-align: center;
-    font-family: 'Lato', sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 156.25%;
@@ -95,7 +94,6 @@ export default defineComponent({
     gap: 40px;
 
     &-item {
-      font-family: 'Lato', sans-serif;
       font-size: 16px;
       font-weight: 500;
       line-height: 156.25%;

@@ -13,7 +13,7 @@
         q-icon.btn__icon(name="mdi-arrow-right-thin" size="24px" color="primary")
 
   .section__image
-    img(src="/src/pages/landing/assets/about-1.png" alt="banner")
+    img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/about-1.png" alt="banner")
 
 </template>
 

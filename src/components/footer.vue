@@ -2,7 +2,7 @@
 .footer
   .footer__contents
     .footer__logo
-      img(src="/src/assets/logo.png" alt="logo")
+      img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo")
     .footer__socials
       q-icon.footer__socials-item(name="mdi-github" size="2rem" color="primary")
       q-icon.footer__socials-item(name="mdi-linkedin" size="2rem" color="primary")

@@ -2,7 +2,7 @@
 .header__mobile
   .header__mobile-container
     .header__logo
-      img(src="/src/assets/logo.png" alt="logo")
+      img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo")
     .header__hamburger
       q-icon(name="mdi-menu" size="2rem" color="black" @click="toggleMenu")
   .header__menu.header__mobile-menu(v-if="isMenuOpen")

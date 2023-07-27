@@ -25,9 +25,8 @@ export default defineComponent({
     scrollTo(elementId) {
       const element = document.getElementById(elementId);
 
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      else this.$router.push('/');
     }
   }
 });

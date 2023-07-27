@@ -13,7 +13,7 @@
         q-icon.btn__icon(name="mdi-arrow-right-thin" size="24px" color="primary")
 
   .section__image
-    img(src="src/pages/landing/assets/about-1.png" alt="banner")
+    img(src="/src/pages/landing/assets/about-1.png" alt="banner")
 
 </template>
 

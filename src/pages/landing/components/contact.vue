@@ -19,7 +19,7 @@
       .form__group
         button.form__group-button.btn.btn--primary(type="submit") Submit
   .contact__asset
-    img(src="src/pages/landing/assets/contact-asset.png" alt="contact")
+    img(src="/src/pages/landing/assets/contact-asset.png" alt="contact")
     .contact__socials
       .contact__socials-item
         q-icon.contact__socials-icon(name="mdi-github" size="1.5rem" color="white")

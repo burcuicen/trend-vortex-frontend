@@ -17,7 +17,7 @@
       button.btn.btn--primary.btn--md(@click="goToRegister") Let’s get started!
 
   .banner__image
-    img(src="src/pages/landing/assets/banner-img.png" alt="banner")
+    img(src="/src/pages/landing/assets/banner-img.png" alt="banner")
 
 </template>
 

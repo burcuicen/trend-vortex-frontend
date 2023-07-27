@@ -1,7 +1,7 @@
 <template lang="pug">
 .header
   .header__logo
-    img(src="src/assets/logo.png" alt="logo")
+    img(src="/src/assets/logo.png" alt="logo")
   .header__menu
     .header__menu-item
       a(@click="scrollTo('home')") Home

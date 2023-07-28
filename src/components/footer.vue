@@ -16,9 +16,9 @@
         router-link(to="/") Contact
       .footer__menu-item
         router-link(to="/") Blog
-.footer__copyright
-  div © Designed and developed by <a href="https://github.com/burcuicen">Burcu İçen</a>
-  </template>
+  .footer__copyright
+    div © Designed and developed by <a href="https://github.com/burcuicen">Burcu İçen</a>
+</template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
@@ -30,10 +30,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .footer {
+  position: absolute;
+  //bottom: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  height: 265px;
-  padding: 10px 25px;
   background-color: #F9F9FF;
   border-top: 1px solid #E5E5E5;
   flex-wrap: wrap;
@@ -50,7 +51,6 @@ export default defineComponent({
   }
 
   &__copyright {
-    position: absolute;
     padding: 20px;
     width: 100%;
     text-align: center;

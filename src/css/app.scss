@@ -1,9 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 $font-family: 'Poppins', sans-serif;
 //Landing Page Styles
 //Header
 body {
   font-family: $font-family;
+}
+a {
+  text-decoration: none;
 }
 .header {
   position: sticky;
@@ -41,7 +44,6 @@ body {
 
       line-height: 156.25%;
       a {
-        text-decoration: none;
         color: #000;
         cursor: pointer;
       }
@@ -184,5 +186,140 @@ body {
     color: #57007b;
 
     border: 1px solid #57007b;
+  }
+}
+.form {
+  &__header {
+    &-pretitle {
+      margin-bottom: 10px;
+
+      color: $black;
+      font-size: 25px;
+      font-weight: 300;
+
+      @media (max-width: 768px) {
+        font-size: 19px;
+      }
+    }
+
+    &-title {
+      color: $primary;
+      font-size: 31px;
+      font-weight: 500;
+
+      @media (max-width: 768px) {
+        font-size: 25px;
+      }
+    }
+
+    &-subtitle {
+      color: $black;
+      font-size: 16px;
+      font-weight: 400;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
+    }
+  }
+
+  &__body {
+    margin-top: 6px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media (max-width: 768px) {
+      margin-top: 0;
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  &__label {
+    color: $black;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  &__input {
+    padding: 19px 27px;
+
+    border-radius: 6px;
+    border: 0.6px solid #282828;
+
+    background: $white;
+    color: $black;
+
+    &::placeholder {
+      color: #ababab;
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    &:focus,
+    &:active {
+      border: 0.6px solid $primary;
+    }
+
+    @media (max-width: 768px) {
+      padding: 19px 17px;
+    }
+  }
+
+  &__button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+
+    margin-top: 7px;
+
+    padding: 16px;
+
+    border-radius: 6px;
+
+    background-color: $primary;
+    color: $white;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #69d6f9;
+    }
+
+    &:disabled {
+      background-color: #878787;
+      cursor: not-allowed;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    color: #7d7d7d;
+
+    font-size: 16px;
+    font-weight: 300;
+
+    &-link {
+      color: #57007b;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   }
 }

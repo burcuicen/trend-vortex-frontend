@@ -1,10 +1,11 @@
 <template lang="pug">
-q-layout(view="hHh lpR fFf")
+q-layout(view="hHh lpR fff")
   q-header
     landing-header
   q-page-container
     router-view
-  landing-footer
+  q-footer
+    landing-footer
 
 </template>
 

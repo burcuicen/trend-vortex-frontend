@@ -2,7 +2,7 @@
 .header__mobile
   .header__mobile-container
     .header__logo
-      img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo")
+      img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo" @click="scrollTo('home')")
     .header__hamburger
       q-icon(name="mdi-menu" size="2rem" color="black" @click="toggleMenu")
   .header__menu.header__mobile-menu(v-if="isMenuOpen")
@@ -12,13 +12,9 @@
       a(@click="scrollTo('about')") About
     .header__menu-item
       a(@click="scrollTo('contact')") Contact
-    .header__menu-item
-      router-link(to="/") Blog
     .header__actions.header__mobile-actions(v-if="isMenuOpen")
-      .header__actions-item.header__actions-item--login
-        router-link(to="/") Login
-      .header__actions-item.header__actions-item--register
-        router-link(to="/") Register
+      router-link.header__actions-item.header__actions-item--login(to="/login") Login
+      router-link.header__actions-item.header__actions-item--register(to="/register") Register
 </template>
 
 <script lang="ts">
@@ -38,9 +34,8 @@ export default defineComponent({
     scrollTo(elementId) {
       const element = document.getElementById(elementId);
 
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      else this.$router.push('/');
     }
   },
 });

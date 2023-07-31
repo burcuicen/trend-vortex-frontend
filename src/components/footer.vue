@@ -2,20 +2,18 @@
 .footer
   .footer__contents
     .footer__logo
-      img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo")
+      img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo" @click="scrollTo('home')")
     .footer__socials
       q-icon.footer__socials-item(name="mdi-github" size="2rem" color="primary")
       q-icon.footer__socials-item(name="mdi-linkedin" size="2rem" color="primary")
       q-icon.footer__socials-item(name="mdi-instagram" size="2rem" color="primary")
     .footer__menu
       .footer__menu-item
-        router-link(to="/") Home
+        a(@click="scrollTo('home')") Home
       .footer__menu-item
-        router-link(to="/") About
+        a(@click="scrollTo('about')") About
       .footer__menu-item
-        router-link(to="/") Contact
-      .footer__menu-item
-        router-link(to="/") Blog
+        a(@click="scrollTo('contact')") Contact
   .footer__copyright
     div © Designed and developed by <a href="https://github.com/burcuicen">Burcu İçen</a>
 </template>
@@ -24,7 +22,15 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'LandingFooter'
+  name: 'LandingFooter',
+  methods: {
+    scrollTo(elementId) {
+      const element = document.getElementById(elementId);
+
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+      else this.$router.push('/');
+    }
+  }
 });
 </script>
 

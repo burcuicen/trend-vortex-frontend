@@ -1,7 +1,7 @@
 <template lang="pug">
 .header
   .header__logo
-    img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo")
+    img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/logo.png" alt="logo" @click="scrollTo('home')")
   .header__menu
     .header__menu-item
       a(@click="scrollTo('home')") Home
@@ -10,10 +10,8 @@
     .header__menu-item
       a(@click="scrollTo('contact')") Contact
   .header__actions
-    .header__actions-item.header__actions-item--login
-      router-link(to="/login") Login
-    .header__actions-item.header__actions-item--register
-      router-link(to="/register") Register
+    router-link.header__actions-item.header__actions-item--login(to="/login") Login
+    router-link.header__actions-item.header__actions-item--register(to="/register") Register
 </template>
 
 <script lang="ts">

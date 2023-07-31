@@ -16,3 +16,4 @@ Trend Vortex is a powerful Vue.js frontend application that provides real-time i
 - JavaScript: The programming language used for client-side development.
 
 Trend Vortex offers an intuitive and responsive user experience, making it your go-to platform for uncovering the pulse of the moment.
+

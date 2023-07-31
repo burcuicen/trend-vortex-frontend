@@ -55,14 +55,14 @@ export default defineComponent({
     },
     async login() {
       const { username, password } = this
-      const { err: loginErr, res: loginRes } = await this.$api.auth.login({ username, password })
-      if (loginErr) {
+      const { err, res } = await this.$api.auth.login({ username, password })
+      if (err) {
         return this.$q.notify({
           color: 'negative',
           message: 'Login failed'
         })
       }
-      const token = loginRes.data.token
+      const token = res.data.token
       await this.saveUser(token)
     },
     async saveUser(token: string) {
@@ -78,7 +78,17 @@ export default defineComponent({
       authStore.login({ token, user: res.data })
       this.$q.cookies.set('token', token)
 
-      this.$router.push('/dashboard')
+      this.$q.notify({
+        color: 'positive',
+        message: 'Register successful'
+      })
+      this.resetForm()
+    },
+    resetForm() {
+      this.email = ''
+      this.username = ''
+      this.password = ''
+      this.confirmPassword = ''
     }
   }
 });

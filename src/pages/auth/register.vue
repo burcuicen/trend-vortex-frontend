@@ -8,18 +8,18 @@
     .form__body
       .form__group
         label.form__label(for="email") Email
-        input.form__input(type="email" id="email" placeholder="Enter your email")
+        input.form__input(type="email" id="email" placeholder="Enter your email" v-model="email")
       .form__group
         label.form__label(for="username") Username
-        input.form__input(type="text" id="username" placeholder="Enter your user name")
+        input.form__input(type="text" id="username" placeholder="Enter your user name" v-model="username")
       .form__group
         label.form__label(for="password") Password
-        input.form__input(type="password" id="password" placeholder="Enter your password")
+        input.form__input(type="password" id="password" placeholder="Enter your password" v-model="password")
       .form__group
-        label.form__label(for="password") Confirm Password
-        input.form__input(type="password" id="password" placeholder="Enter your password")
+        label.form__label(for="confirmPassword") Confirm Password
+        input.form__input(type="confirmPassword" id="confirmPassword" placeholder="Enter your password" v-model="confirmPassword")
       .form__group
-        button.form__button(type="submit") Register
+        button.form__button(@click="register") Register
     .form__footer
       .form__footer-text Already have an account?
       router-link.form__footer-link(to="/login") Login
@@ -28,10 +28,59 @@
 </template>
 
 <script lang="ts">
+import { useAuthStore } from 'src/stores/auth';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'RegisterPage'
+  name: 'RegisterPage',
+  data() {
+    return {
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: ''
+    }
+  },
+  methods: {
+    async register() {
+      const { email, username, password } = this
+      const { err, res } = await this.$api.auth.register({ email, username, password })
+      if (err) {
+        this.$q.notify({
+          color: 'negative',
+          message: 'Register failed'
+        })
+      }
+      if (res) return await this.login()
+    },
+    async login() {
+      const { username, password } = this
+      const { err: loginErr, res: loginRes } = await this.$api.auth.login({ username, password })
+      if (loginErr) {
+        return this.$q.notify({
+          color: 'negative',
+          message: 'Login failed'
+        })
+      }
+      const token = loginRes.data.token
+      await this.saveUser(token)
+    },
+    async saveUser(token: string) {
+      const { err, res } = await this.$api.auth.getUserFromToken(token)
+      if (err) {
+        return this.$q.notify({
+          color: 'negative',
+          message: 'Login failed'
+        })
+      }
+      const authStore = useAuthStore()
+
+      authStore.login({ token, user: res.data })
+      this.$q.cookies.set('token', token)
+
+      this.$router.push('/dashboard')
+    }
+  }
 });
 </script>
 <style lang="scss" scoped>

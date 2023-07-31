@@ -34,7 +34,7 @@ export class AuthRepository {
   async getUserFromToken<T = IUser, E = unknown>(token: string): Promise<RequestWrapper<T, E>> {
     const config: AxiosRequestConfig = {
       method: 'GET',
-      url: '/user',
+      url: this.URL + '/user',
       headers: { Authorization: `Bearer ${token}` }
     }
 

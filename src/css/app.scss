@@ -256,6 +256,9 @@ a {
 
     background: $white;
     color: $black;
+    &--error {
+      border: 0.6px solid #ff0000;
+    }
 
     &::placeholder {
       color: #ababab;
@@ -271,6 +274,11 @@ a {
     @media (max-width: 768px) {
       padding: 19px 17px;
     }
+  }
+  .error {
+    color: #ff0000;
+    font-size: 14px;
+    font-weight: 300;
   }
 
   &__button {

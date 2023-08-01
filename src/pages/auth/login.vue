@@ -8,12 +8,12 @@
     .form__body
       .form__group
         label.form__label(for="username") Username
-        input.form__input(type="text" id="username" placeholder="Enter your user name")
+        input.form__input(type="text" id="username" placeholder="Enter your user name" v-model="username")
       .form__group
         label.form__label(for="password") Password
-        input.form__input(type="password" id="password" placeholder="Enter your password")
+        input.form__input(type="password" id="password" placeholder="Enter your password" v-model="password")
       .form__group
-        button.form__button(type="submit") Login
+        button.form__button(@click="login") Login
     .form__footer
       .form__footer-text Don't have an account?
       router-link.form__footer-link(to="/register") Register
@@ -22,10 +22,49 @@
   </template>
 
 <script lang="ts">
+import { useAuthStore } from 'src/stores/auth';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'LoginPage'
+  name: 'LoginPage',
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    async login() {
+      const { username, password } = this
+      const { err, res } = await this.$api.auth.login({ username, password })
+      if (err) {
+        return this.$q.notify({
+          color: 'negative',
+          message: 'Login failed'
+        })
+      }
+      const token = res.data.token
+      await this.saveUser(token)
+    },
+    async saveUser(token: string) {
+      const { err, res } = await this.$api.auth.getUserFromToken(token)
+      if (err) {
+        return this.$q.notify({
+          color: 'negative',
+          message: 'Login failed'
+        })
+      }
+      const authStore = useAuthStore()
+
+      authStore.login({ token, user: res.data })
+      this.$q.cookies.set('token', token)
+
+      this.$q.notify({
+        color: 'positive',
+        message: 'Login successful'
+      })
+    }
+  },
 });
 </script>
 <style lang="scss" scoped>

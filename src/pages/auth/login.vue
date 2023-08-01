@@ -16,7 +16,7 @@
         button.form__button(@click="login") Login
     .form__footer
       .form__footer-text Don't have an account?
-      router-link.form__footer-link(to="/register") Register
+      router-link.form__footer-link(:to="{name:'Register'}") Register
   .login__asset
     q-img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/login.svg" alt="Register")
   </template>
@@ -32,6 +32,12 @@ export default defineComponent({
       username: '',
       password: '',
     };
+  },
+  computed: {
+    isLoggeddIn() {
+      const authStore = useAuthStore();
+      return authStore.isLoggedIn;
+    },
   },
   methods: {
     async login() {
@@ -63,6 +69,7 @@ export default defineComponent({
         color: 'positive',
         message: 'Login successful'
       })
+      this.$router.push({ name: 'Dashboard' })
     }
   },
 });

@@ -13,8 +13,8 @@
     .header__menu-item
       a(@click="scrollTo('contact')") Contact
     .header__actions.header__mobile-actions(v-if="isMenuOpen")
-      router-link.header__actions-item.header__actions-item--login(to="/login") Login
-      router-link.header__actions-item.header__actions-item--register(to="/register") Register
+      router-link.header__actions-item.header__actions-item--login(:to="{name:'Login'}") Login
+      router-link.header__actions-item.header__actions-item--register(:to="{name:'Register'}") Register
 </template>
 
 <script lang="ts">

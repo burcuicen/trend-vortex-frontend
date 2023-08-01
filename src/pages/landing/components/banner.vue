@@ -28,7 +28,7 @@ export default defineComponent({
   name: 'LandingBanner',
   methods: {
     goToRegister() {
-      this.$router.push('/register');
+      this.$router.push({ name: 'Register' });
     }
   }
 });

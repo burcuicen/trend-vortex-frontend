@@ -26,7 +26,7 @@
         button.form__button(@click="register") Register
     .form__footer
       .form__footer-text Already have an account?
-      router-link.form__footer-link(to="/login") Login
+      router-link.form__footer-link(:to="{name:'Login'}") Login
   .register__asset
     q-img(src="https://trend-vortex.s3.eu-north-1.amazonaws.com/register.svg" alt="Register")
 </template>
@@ -152,6 +152,7 @@ export default defineComponent({
         message: 'Register successful'
       })
       this.resetForm()
+      this.$router.push({ name: 'Dashboard' })
     },
     resetForm() {
       this.form.email = {

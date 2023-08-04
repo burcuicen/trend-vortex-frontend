@@ -1,1 +1,7 @@
 export { AuthRepository } from './auth.repository'
+export { InterestOverTimeRepository } from './interest-over-time.repository'
+export { InterestByRegionRepository } from './interest-by-region.repository'
+export { RealTimeRepository } from './real-time.repository'
+export { RelatedQueriesRepository } from './related-queries.repository'
+export { RelatedTopicsRepository } from './related-topics.repository'
+export { DailyTrendsRepository } from './daily-trends.repository'

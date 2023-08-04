@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/dashboard',
-    component: () => import('src/layouts/dashboard-layout.vue'),
+    component: () => import('src/layouts/dashboard-layout.copy.vue'),
     children: [{ path: '', name: 'Dashboard', component: () => import('src/pages/dashboard/index.vue') }]
   },
   {

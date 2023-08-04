@@ -12,12 +12,19 @@
       a(@click="scrollTo('about')") About
     .header__menu-item
       a(@click="scrollTo('contact')") Contact
-    .header__actions.header__mobile-actions(v-if="isMenuOpen")
+    .header__menu-item(v-if="isLoggeddIn")
+      router-link(:to="{name:'Dashboard'}") Dashboard
+    .header__menu-item(v-if="isLoggeddIn")
+      a Settings
+    .header__menu-item(v-if="isLoggeddIn")
+      router-link(:to="{name:'Logout'}") Logout
+    .header__actions.header__mobile-actions(v-if="isMenuOpen && !isLoggeddIn")
       router-link.header__actions-item.header__actions-item--login(:to="{name:'Login'}") Login
       router-link.header__actions-item.header__actions-item--register(:to="{name:'Register'}") Register
 </template>
 
 <script lang="ts">
+import { useAuthStore } from 'src/stores/auth';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -26,6 +33,18 @@ export default defineComponent({
     return {
       isMenuOpen: false,
     }
+  },
+  computed: {
+    isLoggeddIn() {
+      const authStore = useAuthStore();
+      return authStore.isLoggedIn;
+    },
+  },
+  mounted() {
+    window.addEventListener('mousedown', this.handleClickOutside);
+  },
+  beforeUnmount() {
+    window.removeEventListener('mousedown', this.handleClickOutside);
   },
   methods: {
     toggleMenu() {
@@ -36,7 +55,13 @@ export default defineComponent({
 
       if (element) element.scrollIntoView({ behavior: 'smooth' });
       else this.$router.push('/');
-    }
+    },
+    handleClickOutside(event) {
+      const menu = this.$el;
+      if (!menu.contains(event.target)) {
+        this.isMenuOpen = false;
+      }
+    },
   },
 });
 </script>

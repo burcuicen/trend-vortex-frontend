@@ -16,6 +16,11 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', name: 'Dashboard', component: () => import('src/pages/dashboard/index.vue') }]
   },
   {
+    path: '/logout',
+    name: 'Logout',
+    component: () => import('src/pages/auth/logout.vue')
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
   }

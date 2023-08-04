@@ -20,6 +20,7 @@ a {
 
   background-color: #fff;
   flex-wrap: wrap;
+  border-bottom: 1px solid #e5e5e5;
 
   &__logo {
     cursor: pointer;
@@ -70,16 +71,16 @@ a {
       font-size: 16px;
       font-weight: 500;
 
-      line-height: 156.25%;
+      color: #000;
 
       &--register {
         padding: 14px 25px;
 
         display: flex;
 
-        color: #fafafa;
+        color: $white;
 
-        background: linear-gradient(225deg, #f76680 0%, #57007b 100%);
+        background: $primary;
 
         border-radius: 5px;
 
@@ -110,7 +111,7 @@ a {
       align-items: center;
       justify-content: space-between;
 
-      border: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
     }
 
     &-menu {
@@ -124,9 +125,9 @@ a {
 
       width: 100%;
 
-      background-color: #fafafa;
+      background-color: $white;
 
-      border: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
     }
   }
 }

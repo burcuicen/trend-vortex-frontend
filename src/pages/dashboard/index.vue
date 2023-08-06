@@ -1,5 +1,5 @@
 <template lang="pug">
-div Dashboard
+div Helloo
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';

@@ -94,7 +94,16 @@ module.exports = configure(function (/* ctx */) {
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
-    extras: ['mdi-v7', 'fontawesome-v6'],
+    extras: [
+      'material-icons',
+      'mdi-v7',
+      'ionicons-v4', // last webfont was available in v4.6.3
+      'eva-icons',
+      'fontawesome-v6',
+      'themify',
+      'line-awesome',
+      'bootstrap-icons'
+    ],
     framework: {
       config: {},
 

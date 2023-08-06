@@ -2,7 +2,7 @@
 .q-pa-md.hello
   .hello__title
     | Welcome &nbsp;
-    span.hello__subtitle {{ user.username }}
+    span.hello__subtitle {{ user?.username }}
   .hello__content
     | This is your dashboard page
     br

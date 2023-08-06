@@ -333,3 +333,20 @@ a {
     }
   }
 }
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 70px 100px;
+  &__header {
+    &-title {
+      color: $black;
+      font-size: 31px;
+      font-weight: 500;
+
+      @media (max-width: 768px) {
+        font-size: 25px;
+      }
+    }
+  }
+}

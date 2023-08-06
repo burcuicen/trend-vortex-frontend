@@ -1,4 +1,4 @@
-export const COUNTRİES = [
+export const COUNTRIES = [
   {
     value: 'AD',
     label: 'Andorra'

@@ -120,7 +120,7 @@ export default defineComponent({
           message: 'Register failed'
         })
       }
-      if (res) return await this.login()
+      if (res) await this.login()
     },
     async login() {
       const { username, password } = this.form

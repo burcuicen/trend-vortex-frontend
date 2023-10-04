@@ -3,7 +3,7 @@ import { RequestWrapper } from '../interfaces'
 import { to } from '../utils'
 
 export class HttpClient {
-  private API_BASE_URL = 'https://trend-vortex-bb260986a0a3.herokuapp.com'
+  private API_BASE_URL = 'https://trend-vortex-backend.onrender.com'
   private axios: AxiosInstance
 
   constructor() {

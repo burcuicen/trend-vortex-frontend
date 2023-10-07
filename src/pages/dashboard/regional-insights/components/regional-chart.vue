@@ -4,6 +4,7 @@ div(ref="chartDom" style="width: 100%; height: 600px;")
 
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent } from 'vue';
+import { COLOR_PALETTE_GENERAL, COLOR_PALETTE_PURPLE } from 'src/constants/color-palettes';
 import * as echarts from 'echarts';
 
 interface GeoMapDataItem {
@@ -62,7 +63,7 @@ export default defineComponent({
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        color: ['#57007B', '#AA0070', '#E0395C', '#FD7A4B', '#FFBA4B', '#F9F871'],
+        color: COLOR_PALETTE_GENERAL,
         series: [
           {
             name: 'Search Interest',

@@ -16,6 +16,7 @@
     "@quasar/cli": "^2.2.1",
     "@quasar/extras": "^1.16.5",
     "axios": "^1.2.1",
+    "echarts": "^5.4.3",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "swiper": "^10.0.4",

@@ -44,7 +44,15 @@ export default defineComponent({
     const chartTypeOptions = [
       { label: 'Pie', value: 'pie' },
       { label: 'Bar', value: 'bar' },
+      { label: 'Area', value: 'area' },
+      { label: 'Radar', value: 'radar' },
+      { label: 'Histogram', value: 'histogram' },
+      { label: 'Line', value: 'line' },
+      { label: 'Doughnut', value: 'doughnut' },
+      { label: 'Scatter', value: 'scatter' },
+      { label: 'Funnel', value: 'funnel' },
     ];
+
 
     const selectedDataLimit = ref(DATA_LIMIT);
     const dataLimitOptions = [
@@ -129,6 +137,105 @@ export default defineComponent({
         ],
       };
     };
+    const getAreaChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        tooltip: {
+          trigger: 'axis',
+        },
+        xAxis: {
+          type: 'category',
+          data: dataForChart.map(item => item.name),
+        },
+        yAxis: { type: 'value' },
+        series: [{
+          name: props.pieLabel,
+          type: 'line',
+          data: dataForChart.map(item => item.value),
+          areaStyle: {},
+        }],
+      };
+    };
+    const getRadarChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        tooltip: {},
+        radar: {
+          indicator: dataForChart.map(item => ({ name: item.name, max: 100 })), // Assumes max value to be 100; you might need to adjust
+        },
+        series: [{
+          name: props.pieLabel,
+          type: 'radar',
+          data: [{ value: dataForChart.map(item => item.value), name: props.pieLabel }],
+        }],
+      };
+    };
+    const getHistogramChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        tooltip: {},
+        xAxis: [{ type: 'value', name: 'Count' }],
+        yAxis: [{ type: 'category', data: dataForChart.map(item => item.name) }],
+        series: [{
+          name: props.pieLabel,
+          type: 'bar',
+          data: dataForChart.map(item => item.value),
+        }],
+      };
+    };
+    const getLineChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        tooltip: {
+          trigger: 'axis',
+        },
+        xAxis: {
+          type: 'category',
+          data: dataForChart.map(item => item.name),
+        },
+        yAxis: { type: 'value' },
+        series: [{
+          name: props.pieLabel,
+          type: 'line',
+          data: dataForChart.map(item => item.value),
+        }],
+      };
+    };
+    const getDoughnutChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        ...getPieChartOption(dataForChart),
+        series: [
+          {
+            ...getPieChartOption(dataForChart).series[0],
+            radius: ['30%', '70%'],
+          },
+        ],
+      };
+    };
+    const getScatterChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        xAxis: { type: 'category' },
+        yAxis: { type: 'value' },
+        series: [{
+          name: props.pieLabel,
+          type: 'scatter',
+          data: dataForChart.map(item => [item.name, item.value]),
+        }],
+      };
+    };
+    const getFunnelChartOption = (dataForChart: TChartDataItem[]) => {
+      return {
+        tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c}%",
+        },
+        series: [{
+          name: props.pieLabel,
+          type: 'funnel',
+          data: dataForChart,
+        }],
+      };
+    };
+
+
+
+
 
     const initChart = () => {
       if (chartInstance) {
@@ -143,6 +250,20 @@ export default defineComponent({
         specificOption = getPieChartOption(dataForChart);
       } else if (selectedChartType.value === 'bar') {
         specificOption = getBarChartOption(dataForChart);
+      } else if (selectedChartType.value === 'area') {
+        specificOption = getAreaChartOption(dataForChart);
+      } else if (selectedChartType.value === 'radar') {
+        specificOption = getRadarChartOption(dataForChart);
+      } else if (selectedChartType.value === 'histogram') {
+        specificOption = getHistogramChartOption(dataForChart);
+      } else if (selectedChartType.value === 'line') {
+        specificOption = getLineChartOption(dataForChart);
+      } else if (selectedChartType.value === 'doughnut') {
+        specificOption = getDoughnutChartOption(dataForChart);
+      } else if (selectedChartType.value === 'scatter') {
+        specificOption = getScatterChartOption(dataForChart);
+      } else if (selectedChartType.value === 'funnel') {
+        specificOption = getFunnelChartOption(dataForChart);
       }
 
       const baseOption: echarts.EChartsOption = {

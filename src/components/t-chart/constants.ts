@@ -3,15 +3,15 @@ export interface TChartDataItem {
   value: number
 }
 export const chartTypeOptions = [
-  { label: 'Pie', value: 'pie' },
-  { label: 'Bar', value: 'bar' },
-  { label: 'Area', value: 'area' },
-  { label: 'Radar', value: 'radar' },
-  { label: 'Histogram', value: 'histogram' },
-  { label: 'Line', value: 'line' },
-  { label: 'Doughnut', value: 'doughnut' },
-  { label: 'Scatter', value: 'scatter' },
-  { label: 'Funnel', value: 'funnel' }
+  { label: 'Pie', value: 'pie', slot: 'pie' },
+  { label: 'Bar', value: 'bar', slot: 'bar' },
+  { label: 'Area', value: 'area', slot: 'area' },
+  { label: 'Radar', value: 'radar', slot: 'radar' },
+  { label: 'Histogram', value: 'histogram', slot: 'histogram' },
+  { label: 'Line', value: 'line', slot: 'line' },
+  { label: 'Doughnut', value: 'doughnut', slot: 'doughnut' },
+  { label: 'Scatter', value: 'scatter', slot: 'scatter' },
+  { label: 'Funnel', value: 'funnel', slot: 'funnel' }
 ]
 export const dataLimitOptions = [
   { label: '10', value: 10 },
@@ -19,6 +19,13 @@ export const dataLimitOptions = [
   { label: '50', value: 50 },
   { label: '100', value: 100 },
   { label: 'All', value: 250 }
+]
+export const colorThemes = [
+  { label: 'Purple', value: 'purple', slot: 'purple' },
+  { label: 'Blue', value: 'blue', slot: 'blue' },
+  { label: 'Orange', value: 'orange', slot: 'orange' },
+  { label: 'Green', value: 'green', slot: 'green' },
+  { label: 'Red', value: 'red', slot: 'red' }
 ]
 
 export const getPieChartOption = (dataForChart: TChartDataItem[], pieLabel: string) => {

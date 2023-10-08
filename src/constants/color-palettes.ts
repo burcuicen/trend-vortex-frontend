@@ -1,5 +1,9 @@
 export const COLOR_PALETTE_GENERAL = ['#57007B', '#AA0070', '#E0395C', '#FD7A4B', '#FFBA4B', '#F9F871']
 export const COLOR_PALETTE_PURPLE = ['#5f3a6e', '#8d6c9d', '#b99bcf', '#dbc0f2', '#f0e0fa']
+export const COLOR_PALETTE_ORANGE = ['#ffa600', '#ff8000', '#ff8c00', '#ffa200', '#ff9100']
+export const COLOR_PALETTE_GREEN = ['#5b8c5a', '#7aa878', '#9ac49a', '#bad0bc', '#daeada']
+export const COLOR_PALETTE_BLUE = ['#003366', '#005c99', '#0077cc', '#0099ff', '#66ccff']
+export const COLOR_PALETTE_RED = ['#b55c5c', '#c87c7c', '#db9c9c', '#edbcbc', '#ffdbdb']
 export const COLOR_PALETTE_CATEGORICAL = [
   '#1F77B4',
   '#FF7F0E',

@@ -20,13 +20,17 @@
         q-icon(name="donut_large")
       template(v-slot:funnel)
         q-icon(name="filter_list")
-    q-btn-toggle(v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
+    .filters
+      q-btn-toggle(v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
+      //-q-btn-toggle(v-model="selectedColorPaletteKey" toggle-color="primary" :options="colorThemes")
+
   .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
 </template>
 <script lang="ts">
-import { ref, onMounted, watch, defineComponent } from 'vue'
-import { generateHueVariations, COLOR_PALETTE_PURPLE, COLOR_PALETTE_ORANGE, COLOR_PALETTE_BLUE } from 'src/constants/color-palettes'
-import { chartTypeOptions, dataLimitOptions, chartOptionFunctions } from '../t-chart/constants'
+import { ref, onMounted, watch, defineComponent, computed } from 'vue'
+//import { ColorGenerator } from 'src/helpers/color-generator'
+import { COLOR_PALETTE_PURPLE, COLOR_PALETTE_ORANGE, COLOR_PALETTE_BLUE } from 'src/constants/color-palettes'
+import { chartTypeOptions, dataLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
 import * as echarts from 'echarts'
 
 interface TChartDataItem {
@@ -62,7 +66,9 @@ export default defineComponent({
     const selectedChartType = ref('pie')
 
     const selectedDataLimit = ref(DATA_LIMIT)
-    const hueVariations = generateHueVariations(COLOR_PALETTE_PURPLE, 250)
+
+    const selectedColorPaletteKey = ref('green')
+    const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
 
     const prepareSortedData = () => {
       const mergedData = props.data.reduce((acc: TChartDataItem[], curr) => {
@@ -95,14 +101,14 @@ export default defineComponent({
 
       let specificOption = {}
       if (chartOptionFunctions[selectedChartType.value])
-        specificOption = chartOptionFunctions[selectedChartType.value](dataForChart, props.pieLabel, hueVariations)
+        specificOption = chartOptionFunctions[selectedChartType.value](dataForChart, props.pieLabel, selectedPalette.value)
 
       const baseOption: echarts.EChartsOption = {
         title: {
           //text: props.title,
           left: 'center'
         },
-        color: hueVariations
+        color: selectedPalette.value
       }
 
       chartInstance.setOption({ ...baseOption, ...specificOption })
@@ -112,8 +118,9 @@ export default defineComponent({
     watch(() => props.data, initChart)
     watch(selectedChartType, initChart)
     watch(selectedDataLimit, initChart)
+    watch(selectedColorPaletteKey, initChart)
 
-    return { chartDom, chartTypeOptions, selectedChartType, selectedDataLimit, dataLimitOptions }
+    return { chartDom, chartTypeOptions, selectedChartType, selectedDataLimit, dataLimitOptions, selectedColorPaletteKey, colorThemes }
   }
 })
 </script>

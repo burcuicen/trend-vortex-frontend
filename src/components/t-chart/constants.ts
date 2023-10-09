@@ -1,3 +1,4 @@
+import { COLOR_PALETTE_PURPLE, COLOR_PALETTE_ORANGE, COLOR_PALETTE_BLUE, COLOR_PALETTE_GREEN, COLOR_PALETTE_RED } from 'src/constants/color-palettes'
 export interface TChartDataItem {
   name: string
   value: number
@@ -21,11 +22,11 @@ export const dataLimitOptions = [
   { label: 'All', value: 250 }
 ]
 export const colorThemes = [
-  { label: 'Purple', value: 'purple', slot: 'purple' },
-  { label: 'Blue', value: 'blue', slot: 'blue' },
-  { label: 'Orange', value: 'orange', slot: 'orange' },
-  { label: 'Green', value: 'green', slot: 'green' },
-  { label: 'Red', value: 'red', slot: 'red' }
+  { label: 'Purple', value: 'purple', slot: 'purple', palette: COLOR_PALETTE_PURPLE },
+  { label: 'Blue', value: 'blue', slot: 'blue', palette: COLOR_PALETTE_BLUE },
+  { label: 'Orange', value: 'orange', slot: 'orange', palette: COLOR_PALETTE_ORANGE },
+  { label: 'Green', value: 'green', slot: 'green', palette: COLOR_PALETTE_GREEN },
+  { label: 'Red', value: 'red', slot: 'red', palette: COLOR_PALETTE_RED }
 ]
 
 export const getPieChartOption = (dataForChart: TChartDataItem[], pieLabel: string) => {

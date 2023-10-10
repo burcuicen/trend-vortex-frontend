@@ -22,7 +22,7 @@
         q-icon(name="filter_list")
     .filters
       q-btn-toggle(v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
-      q-btn-toggle(v-model="selectedColorPaletteKey" toggle-color="primary" :options="colorThemes")
+      q-btn-toggle(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
 
   .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
 </template>
@@ -66,7 +66,7 @@ export default defineComponent({
 
     const selectedDataLimit = ref(DATA_LIMIT)
 
-    const selectedColorPaletteKey = ref('green')
+    const selectedColorPaletteKey = ref('purple')
     const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
 
     const prepareSortedData = () => {
@@ -132,6 +132,6 @@ export default defineComponent({
 }
 .filters {
   display: flex;
-  gap: 6px;
+  gap: 18px;
 }
 </style>

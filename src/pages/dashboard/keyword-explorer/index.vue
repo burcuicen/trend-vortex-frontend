@@ -1,7 +1,7 @@
 <template lang="pug">
 q-page
   //- q-input(placeholder="Search for keywords" v-model="text")
-  //- q-btn(color="primary" label="Extract" @click="extractColorCodesFromText(text)")
+  //- q-btn(color="primary" label="Extract" @click="extractColors2()")
   t-in-development
 </template>
 
@@ -30,6 +30,10 @@ export default defineComponent({
       }
       console.log(hexCodes)
       return hexCodes
+    },
+    extractColors2() {
+      const hexValues = Array.from(this.text.matchAll(/#([A-Fa-f0-9]{6})/g), m => m[0])
+      console.log(hexValues)
     }
   }
 })

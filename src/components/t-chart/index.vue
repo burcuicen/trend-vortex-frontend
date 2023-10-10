@@ -22,14 +22,13 @@
         q-icon(name="filter_list")
     .filters
       q-btn-toggle(v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
-      //-q-btn-toggle(v-model="selectedColorPaletteKey" toggle-color="primary" :options="colorThemes")
+      q-btn-toggle(v-model="selectedColorPaletteKey" toggle-color="primary" :options="colorThemes")
 
   .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent, computed } from 'vue'
 //import { ColorGenerator } from 'src/helpers/color-generator'
-import { COLOR_PALETTE_PURPLE, COLOR_PALETTE_ORANGE, COLOR_PALETTE_BLUE } from 'src/constants/color-palettes'
 import { chartTypeOptions, dataLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
 import * as echarts from 'echarts'
 
@@ -124,11 +123,15 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .type-toggle {
   .q-btn__content {
     flex-direction: row-reverse;
     gap: 6px;
   }
+}
+.filters {
+  display: flex;
+  gap: 6px;
 }
 </style>

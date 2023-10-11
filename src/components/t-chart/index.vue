@@ -60,7 +60,7 @@ export default defineComponent({
   setup(props) {
     const chartDom = ref<HTMLDivElement | null>(null)
     let chartInstance: echarts.ECharts | null = null
-    const DATA_LIMIT = 50
+    const DATA_LIMIT = 10
 
     const selectedChartType = ref('pie')
 

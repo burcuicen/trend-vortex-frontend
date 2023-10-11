@@ -8,10 +8,17 @@
       .col-12
         TKeywordForm(@search="getData")
       .col-12
-        .page__results
-          TLoading(v-if="loading")
-          TChart(v-else-if="!loading && chartData.length" v-bind="keywordChartProps" :data="chartData")
-          TNoResult(v-else-if="!loading && errorOccurred")
+        TLoading(v-if="loading")
+        TNoResult(v-else-if="!loading && errorOccurred")
+        .page__results(v-if = "relatedKeywordData.length && !loading && !errorOccurred")
+          q-tabs(v-model="selectedTab" active-color="white" indicator-color="primary" active-bg-color="primary" align="justify")
+            q-tab(name="chart" label="Chart View")
+            q-tab(name="list" label="List View")
+          q-tab-panels(v-model="selectedTab" animated)
+            q-tab-panel(name="chart")
+              TChart(v-if="!loading && chartData.length" v-bind="keywordChartProps" :data="chartData")
+            q-tab-panel(name="list")
+              KeywordList(:data="relatedKeywordData")
 </template>
 
 <script lang="ts">
@@ -28,6 +35,7 @@ import TLoading from 'src/components/t-loading/index.vue'
 import TNoResult from 'src/components/t-no-result/index.vue'
 import TKeywordForm from 'src/components/t-keyword-form/index.vue'
 import { TChartDataItem } from 'src/components/t-chart/constants'
+import KeywordList from './components/keyword-list.vue'
 
 export default defineComponent({
   name: 'KeywordExplorerPage',
@@ -37,7 +45,8 @@ export default defineComponent({
     TLoading,
     TNoResult,
     TKeywordForm,
-    TChart
+    TChart,
+    KeywordList
   },
   setup() {
     const $q = useQuasar()
@@ -47,15 +56,17 @@ export default defineComponent({
 
     const rawData = ref(null)
     const relatedKeywordData = ref([])
-    const relatedTopicsRawData = ref(null)
 
     const chartData = ref<TChartDataItem[]>([])
+
     const keywordChartProps = {
       chartId: 'keyword-chart',
       title: 'Search Interest by Query',
       pieLabel: 'Search Volume',
       dataLimit: 50
     }
+
+    const selectedTab = ref('chart')
 
     async function getData(query: { keyword: string }) {
       loading.value = true
@@ -76,28 +87,6 @@ export default defineComponent({
         loading.value = false
       }
     }
-    async function getRelatedTopics(query: { keyword: string }) {
-      loading.value = true
-      errorOccurred.value = false
-
-      const { err, res } = await api.googleTrends.fetchRelatedTopics(query)
-
-      if (err) {
-        loading.value = false
-        errorOccurred.value = true
-        $q.notify({
-          color: 'negative',
-          message: err.message
-        })
-      } else {
-        relatedTopicsRawData.value = res.data
-        prepareRelatedTopicsData()
-        loading.value = false
-      }
-    }
-    function prepareRelatedTopicsData() {
-      //TODO: prepare data
-    }
 
     function prepareData() {
       const rankedKeyword1 = rawData.value.default.rankedList[0].rankedKeyword
@@ -107,7 +96,8 @@ export default defineComponent({
         .map((item: any) => {
           return {
             name: item.query,
-            value: item.value
+            value: item.value,
+            featured: item.formattedValue ? true : false
           }
         })
         .sort((a: any, b: any) => b.value - a.value)
@@ -121,7 +111,8 @@ export default defineComponent({
       errorOccurred,
       relatedKeywordData,
       keywordChartProps,
-      chartData
+      chartData,
+      selectedTab
     }
   }
 })

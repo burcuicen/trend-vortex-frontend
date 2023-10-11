@@ -20,12 +20,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .no-result {
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
 
   &__title {
     font-size: 32px;
@@ -43,8 +42,7 @@ export default defineComponent({
     width: 200px;
   }
   &__asset {
-    width: 50% !important;
-    height: 50% !important;
+    width: 400px;
   }
 }
 </style>

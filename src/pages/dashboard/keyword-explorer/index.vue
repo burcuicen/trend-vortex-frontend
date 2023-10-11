@@ -97,7 +97,7 @@ export default defineComponent({
           return {
             name: item.query,
             value: item.value,
-            featured: item.formattedValue ? true : false
+            featured: item.formattedValue === 'Breakout' ? true : false
           }
         })
         .sort((a: any, b: any) => b.value - a.value)

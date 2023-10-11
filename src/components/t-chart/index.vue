@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent, computed } from 'vue'
-//import { ColorGenerator } from 'src/helpers/color-generator'
+
 import { chartTypeOptions, dataLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
 import * as echarts from 'echarts'
 
@@ -55,16 +55,19 @@ export default defineComponent({
     pieLabel: {
       type: String,
       required: true
+    },
+    dataLimit: {
+      type: Number,
+      default: 10
     }
   },
   setup(props) {
     const chartDom = ref<HTMLDivElement | null>(null)
     let chartInstance: echarts.ECharts | null = null
-    const DATA_LIMIT = 10
 
     const selectedChartType = ref('pie')
 
-    const selectedDataLimit = ref(DATA_LIMIT)
+    const selectedDataLimit = ref(props.dataLimit)
 
     const selectedColorPaletteKey = ref('purple')
     const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)

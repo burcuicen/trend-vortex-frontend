@@ -3,7 +3,7 @@ import { RequestWrapper } from '../interfaces'
 import { to } from '../utils'
 
 export class HttpClient {
-  private API_BASE_URL = 'https://trendvortex.tech/'
+  private API_BASE_URL = 'https://trend-vortex-backend.azurewebsites.net'
   private axios: AxiosInstance
 
   constructor() {

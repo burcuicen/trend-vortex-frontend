@@ -8,10 +8,17 @@
     .col-12
       TKeywordForm(@search="getData")
     .col-12
-      .page__results
-        TLoading(v-if="loading")
-        TChart(v-else-if="!loading && chartData.length" v-bind="regionalChartProps" :data="chartData")
-        TNoResult(v-else-if="!loading && errorOccurred")
+      TLoading(v-if="loading")
+      TNoResult(v-else-if="!loading && errorOccurred")
+      .page__results(v-if = "chartData.length && !loading && !errorOccurred")
+        q-tabs(v-model="selectedTab" active-color="white" indicator-color="primary" active-bg-color="primary" align="justify")
+            q-tab(name="chart" label="Chart View")
+            q-tab(name="list" label="List View")
+        q-tab-panels(v-model="selectedTab" animated)
+            q-tab-panel(name="chart")
+              TChart(v-if="!loading && chartData.length" v-bind="regionalChartProps" :data="chartData")
+            q-tab-panel(name="list")
+              TKeywordList(:data="keywordData" title="Top Regions")
 </template>
 
 <script lang="ts">
@@ -26,8 +33,10 @@ import TChart from 'src/components/t-chart/index.vue'
 import TLoading from 'src/components/t-loading/index.vue'
 import TNoResult from 'src/components/t-no-result/index.vue'
 import TKeywordForm from 'src/components/t-keyword-form/index.vue'
+import TKeywordList from 'src/components/t-keyword-list/index.vue'
 
 import { GeoMapDataItem, TChartDataItem } from 'src/components/t-chart/types'
+import { KeywordCardItemProps } from 'src/components/t-keyword-list/types'
 export default defineComponent({
   name: 'RegionalInsightsPage',
   components: {
@@ -36,7 +45,8 @@ export default defineComponent({
     TLoading,
     TChart,
     TNoResult,
-    TKeywordForm
+    TKeywordForm,
+    TKeywordList
   },
   setup() {
     const $q = useQuasar()
@@ -44,8 +54,12 @@ export default defineComponent({
     const loading = ref(false)
     const errorOccurred = ref(false)
 
+    const selectedTab = ref('chart')
+
     const rawData = ref(null)
     const chartData = ref<TChartDataItem[]>([])
+
+    const keywordData = ref<KeywordCardItemProps[]>([])
 
     const regionalChartProps = {
       chartId: 'regional-chart',
@@ -84,6 +98,18 @@ export default defineComponent({
           value: item.value[0]
         })
       })
+      prepareKeywordData()
+    }
+    function prepareKeywordData() {
+      chartData.value = chartData.value.sort((a, b) => b.value - a.value)
+      keywordData.value = []
+      chartData.value.forEach((item, index) => {
+        keywordData.value.push({
+          name: item.name,
+          value: item.value,
+          link: `https://www.google.com/search?q=${item.name}`
+        })
+      })
     }
     return {
       getData,
@@ -91,7 +117,9 @@ export default defineComponent({
       rawData,
       chartData,
       regionalChartProps,
-      errorOccurred
+      errorOccurred,
+      selectedTab,
+      keywordData
     }
   }
 })

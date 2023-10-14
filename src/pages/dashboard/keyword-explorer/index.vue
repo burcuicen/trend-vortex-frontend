@@ -18,7 +18,7 @@
             q-tab-panel(name="chart")
               TChart(v-if="!loading && chartData.length" v-bind="keywordChartProps" :data="chartData")
             q-tab-panel(name="list")
-              KeywordList(:data="relatedKeywordData")
+              TKeywordList(:data="relatedKeywordData" splitDataByType)
 </template>
 
 <script lang="ts">
@@ -27,15 +27,15 @@ import { defineComponent, ref } from 'vue'
 import { api } from 'src/plugins'
 import { useQuasar } from 'quasar'
 
+import { TChartDataItem } from 'src/components/t-chart/constants'
+
 import TInDevelopment from 'src/components/t-in-development/index.vue'
 import THeader from 'src/pages/dashboard/components/header.vue'
 import TChart from 'src/components/t-chart/index.vue'
-
 import TLoading from 'src/components/t-loading/index.vue'
 import TNoResult from 'src/components/t-no-result/index.vue'
 import TKeywordForm from 'src/components/t-keyword-form/index.vue'
-import { TChartDataItem } from 'src/components/t-chart/constants'
-import KeywordList from './components/keyword-list.vue'
+import TKeywordList from 'src/components/t-keyword-list/index.vue'
 
 export default defineComponent({
   name: 'KeywordExplorerPage',
@@ -46,7 +46,7 @@ export default defineComponent({
     TNoResult,
     TKeywordForm,
     TChart,
-    KeywordList
+    TKeywordList
   },
   setup() {
     const $q = useQuasar()
@@ -101,8 +101,18 @@ export default defineComponent({
           }
         })
         .sort((a: any, b: any) => b.value - a.value)
-      relatedKeywordData.value = relatedKeywords
+      relatedKeywordData.value = prepareRelatedKeywordData(relatedKeywords)
       chartData.value = relatedKeywords
+    }
+    function prepareRelatedKeywordData(relatedKeywords) {
+      return relatedKeywords.map(item => {
+        return {
+          name: item.name,
+          value: item.value,
+          featured: item.featured,
+          link: `https://www.google.com/search?q=${item.name}`
+        }
+      })
     }
     return {
       getData,

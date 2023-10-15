@@ -21,6 +21,15 @@ export const dataLimitOptions = [
   { label: '100', value: 100 },
   { label: 'All', value: 250 }
 ]
+export const timeLimitOptions = [
+  { label: 'Last 3 Months', value: '3m' },
+  { label: 'Last 6 Months', value: '6m' },
+  { label: 'Last 12 Months', value: '12m' },
+  { label: 'Last 3 Years', value: '36m' },
+  { label: 'Last 5 Years', value: '60m' },
+  { label: 'Last 10 Years', value: '120m' },
+  { label: 'All', value: 'all' }
+]
 export const colorThemes = [
   { label: 'Purple', value: 'purple', slot: 'purple', palette: COLOR_PALETTE_PURPLE },
   { label: 'Blue', value: 'blue', slot: 'blue', palette: COLOR_PALETTE_BLUE },

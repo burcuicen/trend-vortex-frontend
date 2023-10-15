@@ -16,7 +16,7 @@
             q-tab(name="list" label="List View")
           q-tab-panels(v-model="selectedTab" animated)
             q-tab-panel(name="chart")
-              TChart(v-if="!loading && chartData.length" v-bind="keywordChartProps" :data="chartData")
+              TChart(v-if="!loading && chartData.length" v-bind="keywordChartProps" :data="chartData" showLengthLimit)
             q-tab-panel(name="list")
               TKeywordList(:data="relatedKeywordData" splitDataByType)
 </template>

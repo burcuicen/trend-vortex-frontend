@@ -21,7 +21,8 @@
       template(v-slot:funnel)
         q-icon(name="filter_list")
     .filters
-      q-btn-toggle(v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
+      q-btn-toggle(v-if="showLengthLimit" v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
+      q-btn-toggle(v-if="showTimeLimit" v-model="selectedTimeLimit" toggle-color="secondary" :options="timeLimitOptions")
       q-btn-toggle(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
 
   .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
@@ -29,13 +30,9 @@
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent, computed } from 'vue'
 
-import { chartTypeOptions, dataLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
+import { chartTypeOptions, dataLimitOptions, timeLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
+import { IChartType, TChartDataItem } from '../t-chart/types'
 import * as echarts from 'echarts'
-
-interface TChartDataItem {
-  name: string
-  value: number
-}
 
 export default defineComponent({
   name: 'TChart',
@@ -59,6 +56,18 @@ export default defineComponent({
     dataLimit: {
       type: Number,
       default: 10
+    },
+    showLengthLimit: {
+      type: Boolean,
+      default: false
+    },
+    showTimeLimit: {
+      type: Boolean,
+      default: false
+    },
+    disabledChartTypes: {
+      type: Array as () => IChartType[],
+      default: () => []
     }
   },
   setup(props) {
@@ -69,10 +78,52 @@ export default defineComponent({
 
     const selectedDataLimit = ref(props.dataLimit)
 
+    const selectedTimeLimit = ref('all')
+
     const selectedColorPaletteKey = ref('purple')
     const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
+    function handleTimeLimitChange() {
+      let filteredData = props.data.filter(item => item.value !== 0)
 
+      const currentDate = new Date()
+      let cutOffDate = new Date(currentDate)
+
+      switch (selectedTimeLimit.value) {
+        case '3m':
+          cutOffDate.setMonth(currentDate.getMonth() - 3)
+          break
+        case '6m':
+          cutOffDate.setMonth(currentDate.getMonth() - 6)
+          break
+        case '12m':
+          cutOffDate.setMonth(currentDate.getMonth() - 12)
+          break
+        case '36m':
+          cutOffDate.setMonth(currentDate.getMonth() - 36)
+          break
+        case '60m':
+          cutOffDate.setMonth(currentDate.getMonth() - 60)
+          break
+        case '120m':
+          cutOffDate.setMonth(currentDate.getMonth() - 120)
+          break
+        case 'all':
+          cutOffDate = new Date(0)
+          break
+      }
+
+      return filteredData.filter(item => {
+        const [monthStr, year] = item.name.split(' ')
+        const monthIndex = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(monthStr)
+        const itemDate = new Date(parseInt(year), monthIndex)
+        return itemDate >= cutOffDate
+      })
+    }
     const prepareSortedData = () => {
+      if (props.showTimeLimit) {
+        return handleTimeLimitChange()
+      }
+
       const mergedData = props.data.reduce((acc: TChartDataItem[], curr) => {
         const found = acc.find(item => item.name === curr.name)
         if (found) {
@@ -84,7 +135,7 @@ export default defineComponent({
       }, [])
 
       const sortedData = [...mergedData].sort((a, b) => b.value - a.value)
-      const dataForPieChart = sortedData.slice(0, selectedDataLimit.value)
+      const dataForPieChart = props.showLengthLimit ? sortedData.slice(0, selectedDataLimit.value) : sortedData
 
       const othersValue = sortedData.slice(selectedDataLimit.value).reduce((acc, curr) => acc + curr.value, 0)
       if (sortedData.length > selectedDataLimit.value && othersValue > 0) {
@@ -121,8 +172,19 @@ export default defineComponent({
     watch(selectedChartType, initChart)
     watch(selectedDataLimit, initChart)
     watch(selectedColorPaletteKey, initChart)
+    watch(selectedTimeLimit, initChart)
 
-    return { chartDom, chartTypeOptions, selectedChartType, selectedDataLimit, dataLimitOptions, selectedColorPaletteKey, colorThemes }
+    return {
+      chartDom,
+      chartTypeOptions,
+      selectedChartType,
+      selectedDataLimit,
+      dataLimitOptions,
+      selectedColorPaletteKey,
+      colorThemes,
+      timeLimitOptions,
+      selectedTimeLimit
+    }
   }
 })
 </script>

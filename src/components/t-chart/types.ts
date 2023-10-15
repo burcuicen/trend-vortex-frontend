@@ -10,3 +10,4 @@ export interface GeoMapDataItem {
   maxValueIndex: number
   value: number[]
 }
+export type IChartType = 'pie' | 'bar' | 'line' | 'radar' | 'scatter' | 'area' | 'histogram' | 'doughnut' | 'funnel'

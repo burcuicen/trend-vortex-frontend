@@ -29,10 +29,10 @@
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent, computed } from 'vue'
+import * as echarts from 'echarts'
 
 import { chartTypeOptions, dataLimitOptions, timeLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
 import { IChartType, TChartDataItem } from '../t-chart/types'
-import * as echarts from 'echarts'
 
 export default defineComponent({
   name: 'TChart',
@@ -93,42 +93,32 @@ export default defineComponent({
 
     const selectedDataLimit = ref(props.dataLimit)
 
+    const selectedColorPaletteKey = ref('purple')
+    const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
+
     const selectedTimeLimit = ref({
       value: 'all',
       label: 'All'
     })
 
-    const selectedColorPaletteKey = ref('purple')
-    const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
     function handleTimeLimitChange() {
-      let filteredData = props.data.filter(item => item.value !== 0)
+      const filteredData = props.data.filter(item => item.value !== 0)
 
       const currentDate = new Date()
-      let cutOffDate = new Date(currentDate)
 
-      switch (selectedTimeLimit.value.value) {
-        case '3m':
-          cutOffDate.setMonth(currentDate.getMonth() - 3)
-          break
-        case '6m':
-          cutOffDate.setMonth(currentDate.getMonth() - 6)
-          break
-        case '12m':
-          cutOffDate.setMonth(currentDate.getMonth() - 12)
-          break
-        case '36m':
-          cutOffDate.setMonth(currentDate.getMonth() - 36)
-          break
-        case '60m':
-          cutOffDate.setMonth(currentDate.getMonth() - 60)
-          break
-        case '120m':
-          cutOffDate.setMonth(currentDate.getMonth() - 120)
-          break
-        case 'all':
-          cutOffDate = new Date(0)
-          break
+      const monthReductions: Record<string, number> = {
+        '3m': 3,
+        '6m': 6,
+        '12m': 12,
+        '36m': 36,
+        '60m': 60,
+        '120m': 120
       }
+
+      const cutOffDate =
+        selectedTimeLimit.value.value === 'all'
+          ? new Date(0)
+          : new Date(currentDate.setMonth(currentDate.getMonth() - monthReductions[selectedTimeLimit.value.value]))
 
       return filteredData.filter(item => {
         const [monthStr, year] = item.name.split(' ')
@@ -137,6 +127,7 @@ export default defineComponent({
         return itemDate >= cutOffDate
       })
     }
+
     const prepareSortedData = () => {
       if (props.showTimeLimit) {
         return handleTimeLimitChange()
@@ -176,7 +167,6 @@ export default defineComponent({
 
       const baseOption: echarts.EChartsOption = {
         title: {
-          //text: props.title,
           left: 'center'
         },
         color: selectedPalette.value

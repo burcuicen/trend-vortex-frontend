@@ -1,7 +1,13 @@
 import { COLOR_PALETTE_PURPLE, COLOR_PALETTE_ORANGE, COLOR_PALETTE_BLUE, COLOR_PALETTE_GREEN, COLOR_PALETTE_RED } from 'src/constants/color-palettes'
+import { IChartType } from '../t-chart/types'
 export interface TChartDataItem {
   name: string
   value: number
+}
+export interface TChartOption {
+  label: 'Pie' | 'Bar' | 'Area' | 'Radar' | 'Histogram' | 'Line' | 'Doughnut' | 'Scatter' | 'Funnel'
+  value: IChartType
+  slot: 'pie' | 'bar' | 'area' | 'radar' | 'histogram' | 'line' | 'doughnut' | 'scatter' | 'funnel'
 }
 export const chartTypeOptions = [
   { label: 'Pie', value: 'pie', slot: 'pie' },
@@ -13,7 +19,7 @@ export const chartTypeOptions = [
   { label: 'Doughnut', value: 'doughnut', slot: 'doughnut' },
   { label: 'Scatter', value: 'scatter', slot: 'scatter' },
   { label: 'Funnel', value: 'funnel', slot: 'funnel' }
-]
+] as TChartOption[]
 export const dataLimitOptions = [
   { label: '10', value: 10 },
   { label: '20', value: 20 },

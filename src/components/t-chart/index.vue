@@ -22,7 +22,7 @@
         q-icon(name="filter_list")
     .filters
       q-btn-toggle(v-if="showLengthLimit" v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
-      q-btn-toggle(v-if="showTimeLimit" v-model="selectedTimeLimit" toggle-color="secondary" :options="timeLimitOptions")
+      q-select(v-if="showTimeLimit" outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
       q-btn-toggle(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
 
   .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
@@ -68,17 +68,35 @@ export default defineComponent({
     disabledChartTypes: {
       type: Array as () => IChartType[],
       default: () => []
+    },
+    defaultSelectedChartType: {
+      type: String,
+      default: 'pie'
     }
   },
   setup(props) {
     const chartDom = ref<HTMLDivElement | null>(null)
     let chartInstance: echarts.ECharts | null = null
 
-    const selectedChartType = ref('pie')
+    const selectedChartType = ref(props.defaultSelectedChartType || 'pie')
+    const modifiedChartTypeOptions = computed(() => {
+      const options = chartTypeOptions.filter(option => !props.disabledChartTypes.includes(option.value))
+
+      const defaultIndex = options.findIndex(option => option.value === props.defaultSelectedChartType)
+      if (defaultIndex > -1) {
+        const defaultOption = options.splice(defaultIndex, 1)[0]
+        options.unshift(defaultOption)
+      }
+
+      return options
+    })
 
     const selectedDataLimit = ref(props.dataLimit)
 
-    const selectedTimeLimit = ref('all')
+    const selectedTimeLimit = ref({
+      value: 'all',
+      label: 'All'
+    })
 
     const selectedColorPaletteKey = ref('purple')
     const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
@@ -88,7 +106,7 @@ export default defineComponent({
       const currentDate = new Date()
       let cutOffDate = new Date(currentDate)
 
-      switch (selectedTimeLimit.value) {
+      switch (selectedTimeLimit.value.value) {
         case '3m':
           cutOffDate.setMonth(currentDate.getMonth() - 3)
           break
@@ -176,7 +194,7 @@ export default defineComponent({
 
     return {
       chartDom,
-      chartTypeOptions,
+      chartTypeOptions: modifiedChartTypeOptions,
       selectedChartType,
       selectedDataLimit,
       dataLimitOptions,

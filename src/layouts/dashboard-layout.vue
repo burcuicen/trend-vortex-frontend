@@ -47,9 +47,9 @@ const MENU = [
     route: 'KeywordExplorer'
   },
   {
-    name: 'Trends Comparison',
-    icon: 'compare_arrows',
-    route: 'TrendsComparison'
+    name: 'Trend Mixer',
+    icon: 'blender',
+    route: 'TrendMixer'
   },
   {
     name: 'Category Trends',

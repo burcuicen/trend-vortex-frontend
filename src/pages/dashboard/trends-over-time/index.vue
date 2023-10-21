@@ -11,7 +11,7 @@
       TLoading(v-if="loading")
       TNoResult(v-else-if="!loading && errorOccurred")
       .page__results(v-if = "chartData.length && !loading && !errorOccurred")
-        TChart(v-if="!loading && chartData.length" v-bind="timelineChartProps" :data="chartData")
+        TChart(v-if="!loading && chartData.length" v-bind="timelineChartProps" :data="chartData" :keyword="keyword")
 </template>
 
 <script lang="ts">
@@ -44,6 +44,7 @@ export default defineComponent({
 
     const rawData = ref(null)
     const timelineData = ref([])
+    const keyword = ref('')
 
     const chartData = ref<TChartDataItem[]>([])
     const timelineChartProps = {
@@ -69,6 +70,7 @@ export default defineComponent({
           message: err.message
         })
       } else {
+        keyword.value = query.keyword
         rawData.value = res.data
         prepareData()
         loading.value = false
@@ -90,7 +92,8 @@ export default defineComponent({
       timelineData,
       getData,
       timelineChartProps,
-      chartData
+      chartData,
+      keyword
     }
   }
 })

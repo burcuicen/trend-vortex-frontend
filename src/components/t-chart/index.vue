@@ -24,8 +24,10 @@
       q-btn-toggle(v-if="showLengthLimit" v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
       q-select(v-if="showTimeLimit" outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
       q-btn-toggle(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
+  .chart-container
+    .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
+    TDownload(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end" :title="title" :keyword="keyword")
 
-  .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent, computed } from 'vue'
@@ -33,10 +35,16 @@ import * as echarts from 'echarts'
 
 import { chartTypeOptions, dataLimitOptions, timeLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
 import { IChartType, TChartDataItem } from '../t-chart/types'
-
+import TDownload from 'src/components/t-download/index.vue'
 export default defineComponent({
   name: 'TChart',
+  components: {
+    TDownload
+  },
   props: {
+    keyword: {
+      type: String
+    },
     chartId: {
       type: String,
       required: true
@@ -76,7 +84,8 @@ export default defineComponent({
   },
   setup(props) {
     const chartDom = ref<HTMLDivElement | null>(null)
-    let chartInstance: echarts.ECharts | null = null
+
+    const chartInstance = ref<echarts.ECharts | null>(null)
 
     const selectedChartType = ref(props.defaultSelectedChartType || 'pie')
     const modifiedChartTypeOptions = computed(() => {
@@ -154,11 +163,11 @@ export default defineComponent({
     }
 
     const initChart = () => {
-      if (chartInstance) {
-        chartInstance.dispose()
+      if (chartInstance.value) {
+        chartInstance.value.dispose()
       }
 
-      chartInstance = echarts.init(chartDom.value as HTMLDivElement)
+      chartInstance.value = echarts.init(chartDom.value as HTMLDivElement)
       const dataForChart = prepareSortedData()
 
       let specificOption = {}
@@ -172,7 +181,7 @@ export default defineComponent({
         color: selectedPalette.value
       }
 
-      chartInstance.setOption({ ...baseOption, ...specificOption })
+      chartInstance.value.setOption({ ...baseOption, ...specificOption })
     }
 
     onMounted(initChart)
@@ -191,7 +200,8 @@ export default defineComponent({
       selectedColorPaletteKey,
       colorThemes,
       timeLimitOptions,
-      selectedTimeLimit
+      selectedTimeLimit,
+      chartInstance
     }
   }
 })

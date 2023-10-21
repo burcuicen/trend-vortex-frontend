@@ -16,7 +16,7 @@
             q-tab(name="list" label="List View")
         q-tab-panels(v-model="selectedTab" animated)
             q-tab-panel(name="chart")
-              TChart(v-if="!loading && chartData.length" v-bind="regionalChartProps" :data="chartData" showLengthLimit)
+              TChart(v-if="!loading && chartData.length" v-bind="regionalChartProps" :data="chartData" showLengthLimit :keyword="keyword")
             q-tab-panel(name="list")
               TKeywordList(:data="keywordData" title="Top Regions")
 </template>
@@ -60,6 +60,7 @@ export default defineComponent({
     const chartData = ref<TChartDataItem[]>([])
 
     const keywordData = ref<KeywordCardItemProps[]>([])
+    const keyword = ref('')
 
     const regionalChartProps = {
       chartId: 'regional-chart',
@@ -80,6 +81,7 @@ export default defineComponent({
           message: err.message
         })
       } else {
+        keyword.value = query.keyword
         rawData.value = res.data
         prepareData()
         loading.value = false
@@ -119,7 +121,8 @@ export default defineComponent({
       regionalChartProps,
       errorOccurred,
       selectedTab,
-      keywordData
+      keywordData,
+      keyword
     }
   }
 })

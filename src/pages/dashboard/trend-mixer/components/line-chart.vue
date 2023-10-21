@@ -1,10 +1,13 @@
 <template lang="pug">
 q-select(outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
-.q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
+.chart-container
+    .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
+    TDownload(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end")
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent } from 'vue'
 import * as echarts from 'echarts'
+import TDownload from 'src/components/t-download/index.vue'
 
 import { TChartDataItem } from 'src/components/t-chart/types'
 export interface TChartDataSeries {
@@ -15,6 +18,9 @@ export interface TChartDataSeries {
 
 export default defineComponent({
   name: 'LineChart',
+  components: {
+    TDownload
+  },
   props: {
     chartId: {
       type: String,
@@ -27,7 +33,7 @@ export default defineComponent({
   },
   setup(props) {
     const chartDom = ref<HTMLDivElement | null>(null)
-    let chartInstance: echarts.ECharts | null = null
+    const chartInstance = ref<echarts.ECharts | null>(null)
     const timeLimitOptions = [
       { label: 'Last 3 Months', value: '3m' },
       { label: 'Last 6 Months', value: '6m' },
@@ -94,11 +100,11 @@ export default defineComponent({
     }
 
     const initChart = () => {
-      if (chartInstance) {
-        chartInstance.dispose()
+      if (chartInstance.value) {
+        chartInstance.value.dispose()
       }
 
-      chartInstance = echarts.init(chartDom.value as HTMLDivElement)
+      chartInstance.value = echarts.init(chartDom.value as HTMLDivElement)
       const dataForChart = props.series
 
       const specificOption = getLineChartOption(dataForChart)
@@ -109,7 +115,7 @@ export default defineComponent({
         }
       }
 
-      chartInstance.setOption({ ...baseOption, ...specificOption })
+      chartInstance.value.setOption({ ...baseOption, ...specificOption })
     }
 
     onMounted(initChart)
@@ -119,11 +125,12 @@ export default defineComponent({
     watch(selectedTimeLimit, () => {
       const filteredSeries = handleTimeLimitChange()
       const specificOption = getLineChartOption(filteredSeries)
-      chartInstance?.setOption(specificOption, true)
+      chartInstance.value?.setOption(specificOption, true)
     })
 
     return {
       chartDom,
+      chartInstance,
       timeLimitOptions,
       selectedTimeLimit
     }

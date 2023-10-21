@@ -2,16 +2,16 @@
 .keyword(:style="{ backgroundColor: bgColor }")
   .keyword__area
     .keyword__color(:style="{ backgroundColor: chartColor }")
-    input.keyword__input(v-model="keyword" @keyup.enter="search" placeholder="Enter a keyword")
+    input.keyword__input(v-model="keyword" placeholder="Enter a keyword" @input="$emit('search', keyword)")
   .keyword__actions
-    q-icon.cursor-pointer(name="close")
+    q-icon.cursor-pointer(name="close" size="1.5em" @click="$emit('remove')")
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'CardInput',
-  emits: ['search'],
+  emits: ['search', 'remove'],
   props: {
     bgColor: {
       type: String,
@@ -22,14 +22,10 @@ export default defineComponent({
       default: '#57007b'
     }
   },
-  setup(props, { emit }) {
+  setup() {
     const keyword = ref('')
-    function search() {
-      emit('search', keyword.value)
-    }
     return {
-      keyword,
-      search
+      keyword
     }
   }
 })

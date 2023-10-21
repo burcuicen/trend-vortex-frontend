@@ -10,7 +10,7 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'KeywordCard',
+  name: 'CardInput',
   emits: ['search'],
   props: {
     bgColor: {

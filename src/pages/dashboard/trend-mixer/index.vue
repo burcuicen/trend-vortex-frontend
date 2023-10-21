@@ -6,11 +6,11 @@
     )
     .col-12.row.q-col-gutter-sm
       .col-12.col-md-4
-        KeywordCard
+        CardInput
       .col-12.col-md-4
-        KeywordCard(bgColor="#D9F6FF" chartColor="#52CBF0")
+        CardInput(bgColor="#D9F6FF" chartColor="#52CBF0")
       .col-12.col-md-4
-        KeywordCard(bgColor="#FFEBE0" chartColor="#FF7527")
+        CardInput(bgColor="#FFEBE0" chartColor="#FF7527")
       .col-12.col-md-4(v-if="hasPerformedFirstSearch")
         .add-keyword(@click="add")
           q-icon.cursor-pointer(name="add" size="1.5em")
@@ -23,13 +23,13 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import THeader from 'src/pages/dashboard/components/header.vue'
-import KeywordCard from './components/keyword-card.vue'
+import CardInput from './components/card-input.vue'
 
 export default defineComponent({
   name: 'TrendMixerPage',
   components: {
     THeader,
-    KeywordCard
+    CardInput
   },
   setup() {
     const hasPerformedFirstSearch = ref(false)

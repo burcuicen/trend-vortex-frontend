@@ -22,17 +22,17 @@
         q-icon(name="filter_list")
     .filters
       q-btn-toggle(v-if="showLengthLimit" v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
-      q-btn-toggle(v-if="showTimeLimit" v-model="selectedTimeLimit" toggle-color="secondary" :options="timeLimitOptions")
+      q-select(v-if="showTimeLimit" outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
       q-btn-toggle(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
 
   .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent, computed } from 'vue'
+import * as echarts from 'echarts'
 
 import { chartTypeOptions, dataLimitOptions, timeLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
 import { IChartType, TChartDataItem } from '../t-chart/types'
-import * as echarts from 'echarts'
 
 export default defineComponent({
   name: 'TChart',
@@ -68,49 +68,57 @@ export default defineComponent({
     disabledChartTypes: {
       type: Array as () => IChartType[],
       default: () => []
+    },
+    defaultSelectedChartType: {
+      type: String,
+      default: 'pie'
     }
   },
   setup(props) {
     const chartDom = ref<HTMLDivElement | null>(null)
     let chartInstance: echarts.ECharts | null = null
 
-    const selectedChartType = ref('pie')
+    const selectedChartType = ref(props.defaultSelectedChartType || 'pie')
+    const modifiedChartTypeOptions = computed(() => {
+      const options = chartTypeOptions.filter(option => !props.disabledChartTypes.includes(option.value))
+
+      const defaultIndex = options.findIndex(option => option.value === props.defaultSelectedChartType)
+      if (defaultIndex > -1) {
+        const defaultOption = options.splice(defaultIndex, 1)[0]
+        options.unshift(defaultOption)
+      }
+
+      return options
+    })
 
     const selectedDataLimit = ref(props.dataLimit)
 
-    const selectedTimeLimit = ref('all')
-
     const selectedColorPaletteKey = ref('purple')
     const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
+
+    const selectedTimeLimit = ref({
+      value: 'all',
+      label: 'All'
+    })
+
     function handleTimeLimitChange() {
-      let filteredData = props.data.filter(item => item.value !== 0)
+      const filteredData = props.data.filter(item => item.value !== 0)
 
       const currentDate = new Date()
-      let cutOffDate = new Date(currentDate)
 
-      switch (selectedTimeLimit.value) {
-        case '3m':
-          cutOffDate.setMonth(currentDate.getMonth() - 3)
-          break
-        case '6m':
-          cutOffDate.setMonth(currentDate.getMonth() - 6)
-          break
-        case '12m':
-          cutOffDate.setMonth(currentDate.getMonth() - 12)
-          break
-        case '36m':
-          cutOffDate.setMonth(currentDate.getMonth() - 36)
-          break
-        case '60m':
-          cutOffDate.setMonth(currentDate.getMonth() - 60)
-          break
-        case '120m':
-          cutOffDate.setMonth(currentDate.getMonth() - 120)
-          break
-        case 'all':
-          cutOffDate = new Date(0)
-          break
+      const monthReductions: Record<string, number> = {
+        '3m': 3,
+        '6m': 6,
+        '12m': 12,
+        '36m': 36,
+        '60m': 60,
+        '120m': 120
       }
+
+      const cutOffDate =
+        selectedTimeLimit.value.value === 'all'
+          ? new Date(0)
+          : new Date(currentDate.setMonth(currentDate.getMonth() - monthReductions[selectedTimeLimit.value.value]))
 
       return filteredData.filter(item => {
         const [monthStr, year] = item.name.split(' ')
@@ -119,6 +127,7 @@ export default defineComponent({
         return itemDate >= cutOffDate
       })
     }
+
     const prepareSortedData = () => {
       if (props.showTimeLimit) {
         return handleTimeLimitChange()
@@ -158,7 +167,6 @@ export default defineComponent({
 
       const baseOption: echarts.EChartsOption = {
         title: {
-          //text: props.title,
           left: 'center'
         },
         color: selectedPalette.value
@@ -176,7 +184,7 @@ export default defineComponent({
 
     return {
       chartDom,
-      chartTypeOptions,
+      chartTypeOptions: modifiedChartTypeOptions,
       selectedChartType,
       selectedDataLimit,
       dataLimitOptions,

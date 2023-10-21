@@ -51,7 +51,8 @@ export default defineComponent({
       title: 'Trends Over Time',
       pieLabel: 'Search Volume',
       showTimeLimit: true,
-      disabledChartTypes: ['pie', 'doughnut']
+      disabledChartTypes: ['pie', 'doughnut'],
+      defaultSelectedChartType: 'line'
     }
 
     async function getData(query: { keyword: string }) {

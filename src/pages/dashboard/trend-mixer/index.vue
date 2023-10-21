@@ -5,73 +5,66 @@
       content="Mix and match keywords to compare trends over time."
     )
     .col-12.row.q-col-gutter-sm
-      .col-12
-        .keyword
-          .keyword__area
-            .keyword__color
-            input.keyword__input(v-model="initialSearch" @keyup.enter="search" placeholder="Enter a keyword")
-          .keyword__actions
-              q-icon.cursor-pointer(name="close" size="md")
+      .col-12.col-md-4
+        KeywordCard
+      .col-12.col-md-4
+        KeywordCard(bgColor="#D9F6FF" chartColor="#52CBF0")
+      .col-12.col-md-4
+        KeywordCard(bgColor="#FFEBE0" chartColor="#FF7527")
+      .col-12.col-md-4(v-if="hasPerformedFirstSearch")
+        .add-keyword(@click="add")
+          q-icon.cursor-pointer(name="add" size="1.5em")
+          span Compare another keywords
+    .col-12.col-md-12.flex.justify-end
+      q-btn(label="Start" color="primary" @click="search")
+
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import THeader from 'src/pages/dashboard/components/header.vue'
+import KeywordCard from './components/keyword-card.vue'
 
 export default defineComponent({
   name: 'TrendMixerPage',
   components: {
-    THeader
+    THeader,
+    KeywordCard
   },
   setup() {
-    const initialSearch = ref('')
-    const performedFirstSearch = ref(false)
+    const hasPerformedFirstSearch = ref(false)
+    const keywords = ref([])
+
     function search() {
-      if (!performedFirstSearch.value) {
-        performedFirstSearch.value = true
-      }
-      //TODO: implement search
+      //hasPerformedFirstSearch.value = true
+    }
+    function add() {
+      keywords.value.push('')
     }
     return {
-      initialSearch,
-      search
+      search,
+      add,
+      hasPerformedFirstSearch
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-.keyword {
+.add-keyword {
+  cursor: pointer;
   width: 100%;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-radius: 8px;
-  padding: 32px;
-  border: 1px solid #57007b;
+  justify-content: center;
+  gap: 8px;
 
-  background: #f9ecff;
-  &__area {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  &__color {
-    display: flex;
-    flex-shrink: 0;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    background-color: #57007b;
-  }
-  &__input {
-    border: none;
-    outline: none;
-    font-size: 16px;
-    font-weight: 500;
-    color: #57007b;
-    background: transparent;
-    width: 100%;
-  }
+  border-radius: 8px;
+  border: 1px solid #57007b;
+  background-color: #57007b;
+  color: white;
+
+  padding: 24px;
 }
 </style>

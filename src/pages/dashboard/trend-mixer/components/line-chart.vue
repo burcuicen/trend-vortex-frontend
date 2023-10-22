@@ -2,7 +2,7 @@
 q-select(outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
 .chart-container
     .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
-    TDownload(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end")
+    TDownload(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end" title="Comparing Trends Over Time Data" :keyword="getSeriesKeyword()")
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent } from 'vue'
@@ -117,7 +117,9 @@ export default defineComponent({
 
       chartInstance.value.setOption({ ...baseOption, ...specificOption })
     }
-
+    function getSeriesKeyword() {
+      return props.series.map(s => s.name).join('-')
+    }
     onMounted(initChart)
     watch((newVal, oldVal) => {
       return newVal !== oldVal
@@ -132,7 +134,8 @@ export default defineComponent({
       chartDom,
       chartInstance,
       timeLimitOptions,
-      selectedTimeLimit
+      selectedTimeLimit,
+      getSeriesKeyword
     }
   }
 })

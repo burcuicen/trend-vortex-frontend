@@ -33,7 +33,7 @@ export default defineComponent({
         })
         const link = document.createElement('a')
         link.href = url
-        link.download = `${props.title}-${props.keyword}.png` // Updated this line
+        link.download = `${props.title}-${props.keyword}.png`
         link.click()
       }
     }
@@ -47,10 +47,9 @@ export default defineComponent({
         })
 
         const pdf = new jsPDF()
-        const pageWidth = 210 // A4 width in mm
-        const pageHeight = 297 // A4 height in mm
+        const pageWidth = 210
+        const pageHeight = 297
 
-        // Load the image to extract its natural width and height
         const img = new Image()
         img.src = url
         img.onload = () => {
@@ -68,8 +67,8 @@ export default defineComponent({
           }
 
           const y = (pageHeight - imgHeight) / 2
+          //zoom image to fit in page
 
-          // Add the image
           pdf.addImage(url, 'PNG', 0, y, imgWidth, imgHeight)
 
           pdf.save(`${props.title}-${props.keyword}.pdf`)

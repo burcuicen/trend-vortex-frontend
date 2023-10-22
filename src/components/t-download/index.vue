@@ -37,6 +37,9 @@ export default defineComponent({
         link.click()
       }
     }
+    const generateTitle = () => {
+      return `${props.title} of the keyword(s) ${props.keyword}`
+    }
 
     const saveAsPDF = () => {
       if (props.chartInstance) {
@@ -49,6 +52,11 @@ export default defineComponent({
         const pdf = new jsPDF()
         const pageWidth = 210
         const pageHeight = 297
+        const titleFontSize = 12
+        const titleHeight = (titleFontSize / 72) * 25.4
+        const paddingBelowTitle = 10
+        const topMargin = 16
+        const sideMargin = 20
 
         const img = new Image()
         img.src = url
@@ -58,18 +66,20 @@ export default defineComponent({
 
           const aspectRatio = naturalWidth / naturalHeight
 
-          let imgWidth = pageWidth
+          let imgWidth = pageWidth - 2 * sideMargin
           let imgHeight = imgWidth / aspectRatio
 
-          if (imgHeight > pageHeight) {
-            imgHeight = pageHeight
+          if (imgHeight > pageHeight - topMargin - titleHeight - paddingBelowTitle) {
+            imgHeight = pageHeight - topMargin - titleHeight - paddingBelowTitle
             imgWidth = imgHeight * aspectRatio
           }
 
-          const y = (pageHeight - imgHeight) / 2
-          //zoom image to fit in page
+          const y = topMargin + titleHeight + paddingBelowTitle
 
-          pdf.addImage(url, 'PNG', 0, y, imgWidth, imgHeight)
+          pdf.setFontSize(titleFontSize)
+          pdf.text(generateTitle(), 10, topMargin + titleHeight)
+
+          pdf.addImage(url, 'PNG', sideMargin, y, imgWidth, imgHeight)
 
           pdf.save(`${props.title}-${props.keyword}.pdf`)
         }

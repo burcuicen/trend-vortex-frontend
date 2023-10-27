@@ -1,18 +1,21 @@
 <template lang="pug">
-q-page
-  t-in-development
+.q-pa-md.page.page--regional
+    THeader(
+      title="Category Explorer"
+      content="Enter a keyword to explore the category trends"
+    )
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import TInDevelopment from 'src/components/t-in-development/index.vue';
+import { defineComponent } from 'vue'
+import TInDevelopment from 'src/components/t-in-development/index.vue'
 
 export default defineComponent({
   name: 'CategoryTrendsPage',
   components: {
-    TInDevelopment,
-  },
-});
+    TInDevelopment
+  }
+})
 </script>
 
 <style lang="scss" scoped></style>

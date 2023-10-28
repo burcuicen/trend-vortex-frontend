@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'regional-insights', name: 'RegionalInsights', component: () => import('src/pages/dashboard/regional-insights/index.vue') },
       { path: 'keyword-explorer', name: 'KeywordExplorer', component: () => import('src/pages/dashboard/keyword-explorer/index.vue') },
       { path: 'trend-mixer', name: 'TrendMixer', component: () => import('src/pages/dashboard/trend-mixer/index.vue') },
-      { path: 'category-trends', name: 'CategoryTrends', component: () => import('src/pages/dashboard/category-trends/index.vue') },
+      { path: 'topic-tunes', name: 'TopicTunes', component: () => import('src/pages/dashboard/topic-tunes/index.vue') },
       { path: 'my-research', name: 'MyResearch', component: () => import('src/pages/dashboard/my-research/index.vue') },
       { path: 'profile', name: 'Profile', component: () => import('src/pages/dashboard/profile/index.vue') }
     ]

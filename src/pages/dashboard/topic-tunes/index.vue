@@ -1,19 +1,19 @@
 <template lang="pug">
 .q-pa-md.page.page--regional
     THeader(
-      title="Category Explorer"
+      title="Topic Tunes"
       content="Enter a keyword to explore the category trends"
     )
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import TInDevelopment from 'src/components/t-in-development/index.vue'
+import THeader from 'src/pages/dashboard/components/header.vue'
 
 export default defineComponent({
-  name: 'CategoryTrendsPage',
+  name: 'TopicTunesPage',
   components: {
-    TInDevelopment
+    THeader
   }
 })
 </script>

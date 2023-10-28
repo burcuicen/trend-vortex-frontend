@@ -52,20 +52,20 @@ const MENU = [
     route: 'TrendMixer'
   },
   {
-    name: 'Category Trends',
-    icon: 'category',
-    route: 'CategoryTrends'
-  },
-  {
-    name: 'My Research',
-    icon: 'biotech',
-    route: 'MyResearch'
-  },
-  {
-    name: 'Profile',
-    icon: 'manage_accounts',
-    route: 'Profile'
+    name: 'Topic Tunes',
+    icon: 'tune',
+    route: 'TopicTunes'
   }
+  // {
+  //   name: 'My Research',
+  //   icon: 'biotech',
+  //   route: 'MyResearch'
+  // },
+  // {
+  //   name: 'Profile',
+  //   icon: 'manage_accounts',
+  //   route: 'Profile'
+  // }
 ]
 export default {
   data() {

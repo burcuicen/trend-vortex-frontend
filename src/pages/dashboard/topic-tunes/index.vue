@@ -12,21 +12,25 @@
         TNoResult(v-else-if="!loading && errorOccurred")
         .page__results(v-if = "preparedData.length && !loading && !errorOccurred")
           .row.q-col-gutter-sm
-            .col-12(v-for="card in preparedData")
+            .col-12.col-md-3(v-for="card in topData")
               TopResultCard(:card="card")
+          .row.q-col-gutter-sm.q-mt-md
+            .col-12.col-md-3.q-mb-md(v-for="card in preparedData")
+                  TopResultCard(:card="card")
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import THeader from 'src/pages/dashboard/components/header.vue'
 import TNoResult from 'src/components/t-no-result/index.vue'
 import TLoading from 'src/components/t-loading/index.vue'
-
+import TChart from 'src/components/t-chart/index.vue'
 import TKeywordForm from 'src/components/t-keyword-form/index.vue'
 import TopResultCard from './components/cards/top-result.vue'
 
 import { api } from 'src/plugins'
 import { useQuasar } from 'quasar'
+import { TChartDataItem } from 'src/components/t-chart/types'
 
 export default defineComponent({
   name: 'TopicTunesPage',
@@ -35,9 +39,11 @@ export default defineComponent({
     TKeywordForm,
     TNoResult,
     TLoading,
-    TopResultCard
+    TopResultCard,
+    TChart
   },
   setup() {
+
     const loading = ref(false)
     const errorOccurred = ref(false)
 
@@ -46,7 +52,16 @@ export default defineComponent({
     const rawData = ref(null)
 
     const preparedData = ref([])
+    const topData = computed(() => preparedData.value.slice(0, 4))
 
+    const chartData = ref<TChartDataItem[]>([])
+
+    const topicsChartDataPops = {
+      chartId: 'topic-chart',
+      title: 'Top Topics',
+      pieLabel: 'Search Volume',
+      dataLimit: 50
+    }
     async function getData(query: { keyword: string }) {
       const $q = useQuasar()
 
@@ -97,13 +112,25 @@ export default defineComponent({
       const trendingData = trending.map(item => mapToPreparedData(item, 'trending'))
       const breakoutData = breakout.map(item => mapToPreparedData(item, 'breakout', minVal, maxVal))
       preparedData.value = trendingData.concat(breakoutData).sort((a, b) => b.score - a.score)
+      prepareChartData()
+    }
+    function prepareChartData() {
+      preparedData.value.forEach(item => {
+        chartData.value.push({
+          name: item.title,
+          value: item.value
+        })
+      })
     }
 
     return {
       loading,
       errorOccurred,
       getData,
-      preparedData
+      preparedData,
+      topData,
+      chartData,
+      topicsChartDataPops
     }
   }
 })

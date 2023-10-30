@@ -1,7 +1,7 @@
 <template lang="pug">
 .col-12.row.q-col-gutter-sm
     .col-12
-      q-input(v-model="keyword" label="Keyword" outlined)
+      q-input(v-model="keyword" label="Keyword" outlined @keyup.enter="search")
         template(v-slot:prepend)
           q-icon.cursor-pointer(name="search")
     .col-12.col-md-12.flex.justify-end

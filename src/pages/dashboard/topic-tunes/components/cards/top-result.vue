@@ -2,7 +2,7 @@
 .top-card(:style="getCardStyles(card.score)")
   .top-card__container
     .top-card__score
-      q-circular-progress(:angle="90" :value="card.score" size="63px" :thickness="0.15" :color="getCardChartColor(card.score)" track-color="white" class="q-ma-md" show-value)
+      q-circular-progress(:angle="90" :value="card.score" size="63px" :thickness="0.15" :color="getCardChartColor(card.score)" track-color="white" show-value)
         | {{ card.score  }}%
     .top-card__content
       .top-card__content-title {{ card.title }}

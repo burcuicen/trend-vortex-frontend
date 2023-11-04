@@ -1,7 +1,7 @@
 <template lang="pug">
 .chart.q-mt-md
   .row.flex.justify-between
-    q-btn-toggle.type-toggle(v-model="selectedChartType" toggle-color="primary" :options="chartTypeOptions")
+    q-btn-toggle.type-toggle.q-mb-md(v-model="selectedChartType" toggle-color="primary" :options="chartTypeOptions")
       template(v-slot:pie)
         q-icon(name="pie_chart")
       template(v-slot:bar)
@@ -21,99 +21,113 @@
       template(v-slot:funnel)
         q-icon(name="filter_list")
     .filters
-      q-btn-toggle(v-if="showLengthLimit" v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
-      q-select(v-if="showTimeLimit" outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
-      q-btn-toggle(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
+      q-btn-toggle.filters__length(v-if="showLengthLimit" v-model="selectedDataLimit" toggle-color="primary" :options="dataLimitOptions")
+      q-select.filters__time(v-if="showTimeLimit" outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 300px;")
+      q-btn-toggle.filters__colors(v-model="selectedColorPaletteKey" :toggle-color="selectedColorPaletteKey" :options="colorThemes")
   .chart-container
     .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
     TDownload(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end" :title="title" :keyword="keyword")
 
 </template>
 <script lang="ts">
-import { ref, onMounted, watch, defineComponent, computed } from 'vue'
-import * as echarts from 'echarts'
+import { ref, onMounted, watch, defineComponent, computed } from 'vue';
+import * as echarts from 'echarts';
 
-import { chartTypeOptions, dataLimitOptions, timeLimitOptions, chartOptionFunctions, colorThemes } from '../t-chart/constants'
-import { IChartType, TChartDataItem } from '../t-chart/types'
-import TDownload from 'src/components/t-download/index.vue'
+import {
+  chartTypeOptions,
+  dataLimitOptions,
+  timeLimitOptions,
+  chartOptionFunctions,
+  colorThemes,
+} from '../t-chart/constants';
+import { IChartType, TChartDataItem } from '../t-chart/types';
+import TDownload from 'src/components/t-download/index.vue';
 export default defineComponent({
   name: 'TChart',
   components: {
-    TDownload
+    TDownload,
   },
   props: {
     keyword: {
-      type: String
+      type: String,
     },
     chartId: {
       type: String,
-      required: true
+      required: true,
     },
     data: {
       type: Array as () => TChartDataItem[],
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     pieLabel: {
       type: String,
-      required: true
+      required: true,
     },
     dataLimit: {
       type: Number,
-      default: 10
+      default: 10,
     },
     showLengthLimit: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showTimeLimit: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disabledChartTypes: {
       type: Array as () => IChartType[],
-      default: () => []
+      default: () => [],
     },
     defaultSelectedChartType: {
       type: String,
-      default: 'pie'
-    }
+      default: 'pie',
+    },
   },
   setup(props) {
-    const chartDom = ref<HTMLDivElement | null>(null)
+    const chartDom = ref<HTMLDivElement | null>(null);
 
-    const chartInstance = ref<echarts.ECharts | null>(null)
+    const chartInstance = ref<echarts.ECharts | null>(null);
 
-    const selectedChartType = ref(props.defaultSelectedChartType || 'pie')
+    const selectedChartType = ref(props.defaultSelectedChartType || 'pie');
     const modifiedChartTypeOptions = computed(() => {
-      const options = chartTypeOptions.filter(option => !props.disabledChartTypes.includes(option.value))
+      const options = chartTypeOptions.filter(
+        (option) => !props.disabledChartTypes.includes(option.value)
+      );
 
-      const defaultIndex = options.findIndex(option => option.value === props.defaultSelectedChartType)
+      const defaultIndex = options.findIndex(
+        (option) => option.value === props.defaultSelectedChartType
+      );
       if (defaultIndex > -1) {
-        const defaultOption = options.splice(defaultIndex, 1)[0]
-        options.unshift(defaultOption)
+        const defaultOption = options.splice(defaultIndex, 1)[0];
+        options.unshift(defaultOption);
       }
 
-      return options
-    })
+      return options;
+    });
 
-    const selectedDataLimit = ref(props.dataLimit)
+    const selectedDataLimit = ref(props.dataLimit);
 
-    const selectedColorPaletteKey = ref('purple')
-    const selectedPalette = computed(() => colorThemes.find(item => item.value === selectedColorPaletteKey.value)?.palette)
+    const selectedColorPaletteKey = ref('purple');
+    const selectedPalette = computed(
+      () =>
+        colorThemes.find((item) => item.value === selectedColorPaletteKey.value)
+          ?.palette
+    );
 
     const selectedTimeLimit = ref({
       value: 'all',
-      label: 'All'
-    })
+      label: 'All',
+    });
 
     function handleTimeLimitChange() {
-      const filteredData = props.data.filter(item => item.value !== 0)
+      const filteredData = props.data.filter((item) => item.value !== 0);
 
-      const currentDate = new Date()
+      const currentDate = new Date();
 
       const monthReductions: Record<string, number> = {
         '3m': 3,
@@ -121,75 +135,101 @@ export default defineComponent({
         '12m': 12,
         '36m': 36,
         '60m': 60,
-        '120m': 120
-      }
+        '120m': 120,
+      };
 
       const cutOffDate =
         selectedTimeLimit.value.value === 'all'
           ? new Date(0)
-          : new Date(currentDate.setMonth(currentDate.getMonth() - monthReductions[selectedTimeLimit.value.value]))
+          : new Date(
+              currentDate.setMonth(
+                currentDate.getMonth() -
+                  monthReductions[selectedTimeLimit.value.value]
+              )
+            );
 
-      return filteredData.filter(item => {
-        const [monthStr, year] = item.name.split(' ')
-        const monthIndex = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(monthStr)
-        const itemDate = new Date(parseInt(year), monthIndex)
-        return itemDate >= cutOffDate
-      })
+      return filteredData.filter((item) => {
+        const [monthStr, year] = item.name.split(' ');
+        const monthIndex = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ].indexOf(monthStr);
+        const itemDate = new Date(parseInt(year), monthIndex);
+        return itemDate >= cutOffDate;
+      });
     }
 
     const prepareSortedData = () => {
       if (props.showTimeLimit) {
-        return handleTimeLimitChange()
+        return handleTimeLimitChange();
       }
 
       const mergedData = props.data.reduce((acc: TChartDataItem[], curr) => {
-        const found = acc.find(item => item.name === curr.name)
+        const found = acc.find((item) => item.name === curr.name);
         if (found) {
-          found.value += curr.value
+          found.value += curr.value;
         } else {
-          acc.push({ ...curr })
+          acc.push({ ...curr });
         }
-        return acc
-      }, [])
+        return acc;
+      }, []);
 
-      const sortedData = [...mergedData].sort((a, b) => b.value - a.value)
-      const dataForPieChart = props.showLengthLimit ? sortedData.slice(0, selectedDataLimit.value) : sortedData
+      const sortedData = [...mergedData].sort((a, b) => b.value - a.value);
+      const dataForPieChart = props.showLengthLimit
+        ? sortedData.slice(0, selectedDataLimit.value)
+        : sortedData;
 
-      const othersValue = sortedData.slice(selectedDataLimit.value).reduce((acc, curr) => acc + curr.value, 0)
+      const othersValue = sortedData
+        .slice(selectedDataLimit.value)
+        .reduce((acc, curr) => acc + curr.value, 0);
       if (sortedData.length > selectedDataLimit.value && othersValue > 0) {
-        dataForPieChart.push({ name: 'Others', value: othersValue })
+        dataForPieChart.push({ name: 'Others', value: othersValue });
       }
-      return dataForPieChart
-    }
+      return dataForPieChart;
+    };
 
     const initChart = () => {
       if (chartInstance.value) {
-        chartInstance.value.dispose()
+        chartInstance.value.dispose();
       }
 
-      chartInstance.value = echarts.init(chartDom.value as HTMLDivElement)
-      const dataForChart = prepareSortedData()
+      chartInstance.value = echarts.init(chartDom.value as HTMLDivElement);
+      const dataForChart = prepareSortedData();
 
-      let specificOption = {}
+      let specificOption = {};
       if (chartOptionFunctions[selectedChartType.value])
-        specificOption = chartOptionFunctions[selectedChartType.value](dataForChart, props.pieLabel, selectedPalette.value)
+        specificOption = chartOptionFunctions[selectedChartType.value](
+          dataForChart,
+          props.pieLabel,
+          selectedPalette.value
+        );
 
       const baseOption: echarts.EChartsOption = {
         title: {
-          left: 'center'
+          left: 'center',
         },
-        color: selectedPalette.value
-      }
+        color: selectedPalette.value,
+      };
 
-      chartInstance.value.setOption({ ...baseOption, ...specificOption })
-    }
+      chartInstance.value.setOption({ ...baseOption, ...specificOption });
+    };
 
-    onMounted(initChart)
-    watch(() => props.data, initChart)
-    watch(selectedChartType, initChart)
-    watch(selectedDataLimit, initChart)
-    watch(selectedColorPaletteKey, initChart)
-    watch(selectedTimeLimit, initChart)
+    onMounted(initChart);
+    watch(() => props.data, initChart);
+    watch(selectedChartType, initChart);
+    watch(selectedDataLimit, initChart);
+    watch(selectedColorPaletteKey, initChart);
+    watch(selectedTimeLimit, initChart);
 
     return {
       chartDom,
@@ -201,13 +241,18 @@ export default defineComponent({
       colorThemes,
       timeLimitOptions,
       selectedTimeLimit,
-      chartInstance
-    }
-  }
-})
+      chartInstance,
+    };
+  },
+});
 </script>
 <style lang="scss" scoped>
 .type-toggle {
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    box-shadow: none;
+
+  }
   .q-btn__content {
     flex-direction: row-reverse;
     gap: 6px;
@@ -216,5 +261,19 @@ export default defineComponent({
 .filters {
   display: flex;
   gap: 18px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+  &__time {
+    @media (max-width: 600px) {
+    width: 100px;
+  }
+  }
+  &__colors {
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
+      box-shadow: none;
+  }
+  }
 }
 </style>

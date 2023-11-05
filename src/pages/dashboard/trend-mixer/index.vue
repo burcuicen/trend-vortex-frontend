@@ -4,7 +4,7 @@
         title="Trend Mixer"
         content="Mix and match keywords to compare trends over time."
       )
-      .col-12.row.q-col-gutter-sm
+      .col-12.row.q-col-gutter-sm.card-container
         .col(v-for="keyword in keywords" :key="keyword.id")
           CardInput(
             :bgColor="keyword.bgColor"
@@ -212,5 +212,10 @@ export default defineComponent({
   color: white;
 
   padding: 24px;
+}
+.card-container {
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 }
 </style>

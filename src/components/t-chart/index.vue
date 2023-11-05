@@ -251,6 +251,7 @@ export default defineComponent({
   @media (max-width: 600px) {
     flex-wrap: wrap;
     box-shadow: none;
+    border: 1px solid black;
 
   }
   .q-btn__content {
@@ -273,6 +274,7 @@ export default defineComponent({
     @media (max-width: 600px) {
       flex-wrap: wrap;
       box-shadow: none;
+      border: 1px solid black;
   }
   }
 }

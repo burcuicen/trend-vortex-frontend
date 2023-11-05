@@ -1,8 +1,8 @@
 <template lang="pug">
-q-select(outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 400px;")
+q-select(outlined v-model="selectedTimeLimit"  :options="timeLimitOptions" label="Select Time Limit" style="min-width: 300px;")
 .chart-container
     .q-mt-md(ref="chartDom" style="width: 100%; height: 600px;" :id="chartId")
-    TDownload(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end" title="Comparing Trends Over Time Data" :keyword="getSeriesKeyword()")
+    TDownload.q-mt-md(v-if="chartInstance" :chartInstance="chartInstance" style="justify-content:flex-end" title="Comparing Trends Over Time Data" :keyword="getSeriesKeyword()")
 </template>
 <script lang="ts">
 import { ref, onMounted, watch, defineComponent } from 'vue'

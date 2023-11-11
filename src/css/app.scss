@@ -133,6 +133,7 @@ a {
 }
 .page {
   &__landing {
+    padding: 0px!important;
     &-banner {
       padding: 70px 100px;
       @media (max-width: 768px) {

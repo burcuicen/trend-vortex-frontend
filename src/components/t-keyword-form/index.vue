@@ -1,9 +1,9 @@
 <template lang="pug">
 .col-12.row.q-col-gutter-sm
     .col-12
-      q-input(v-model="keyword" label="Keyword" outlined @keyup.enter="search")
+      q-input(v-model="keyword" label="Keyword" @keyup.enter="search" filled)
         template(v-slot:prepend)
-          q-icon.cursor-pointer(name="search")
+          q-icon.cursor-pointer(name="query_stats" color="primary")
     .col-12.col-md-12.flex.justify-end
       q-btn(label="Search" color="primary" @click="search")
 </template>

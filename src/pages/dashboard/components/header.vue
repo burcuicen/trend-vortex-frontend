@@ -3,7 +3,7 @@
 .t-header
   .page__header
     .page__header-title {{ title }}
-  .page__content {{ content }}
+  .t-header__content {{ content }}
 </template>
 
 <script lang="ts">
@@ -29,5 +29,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 12px;
+  &__content {
+    color: #4B4A54;
+    font-size: 12px;
+    font-weight: 400;
+  }
 }
 </style>

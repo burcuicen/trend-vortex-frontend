@@ -348,11 +348,12 @@ a {
   &__header {
     &-title {
       color: $black;
-      font-size: 31px;
+      font-size: 24px;
       font-weight: 500;
+      line-height: 120%;
 
       @media (max-width: 768px) {
-        font-size: 25px;
+        font-size: 20px;
       }
     }
   }

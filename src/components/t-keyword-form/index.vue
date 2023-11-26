@@ -5,15 +5,19 @@
         template(v-slot:prepend)
           q-icon.cursor-pointer(name="search" color="primary")
     .col-12.col-md-12.flex.justify-end
-      q-btn(label="Search" color="primary" @click="search")
+      BaseButton(label="Search" type="secondary" @click="search")
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import BaseButton from 'src/components/_base/base-button.vue'
 
 export default defineComponent({
   name: 'TKeywordForm',
   emits: ['search'],
+  components: {
+    BaseButton
+  },
   setup(props, { emit }) {
     const keyword = ref('')
     function search() {

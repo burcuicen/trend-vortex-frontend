@@ -5,7 +5,7 @@
         template(v-slot:prepend)
           q-icon.cursor-pointer(name="search" color="primary")
     .col-12.col-md-12.flex.justify-end
-      BaseButton(label="Search" type="secondary" @click="search")
+      BaseButton(label="Search" type="primary" @click="search")
 </template>
 
 <script lang="ts">

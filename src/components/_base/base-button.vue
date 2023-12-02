@@ -75,6 +75,15 @@ export default defineComponent({
       --bg-color: #FFCC7A;
     }
   }
+  &[type="outline"] {
+    --bg-color: transparent;
+    --text-color: #57007B;
+    border: 1px solid #57007B;
+    &:hover {
+      --bg-color: #57007B;
+      --text-color: #F9F9F9;
+    }
+  }
 }
 </style>
 
